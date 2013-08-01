@@ -58,7 +58,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //Ri.rotateX(19.0 * deg);
   //bcm.SetInitRotationMatrix(Ri);
 
-    // Test Subversion 
+    // Test Subversion
+    // From macbook pro thorugh google
+    
   
   DriftSpace    D(0.4 * m);
   /*
