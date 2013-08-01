@@ -69,7 +69,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                        0.3 * tesla,     // field_strength
                        field_exp_scale, // field_exp_scale
                        "G4_Fe");
-  */
+   */
   Block         BKAPTON(0.01 * m, 0.1 * m,"G4_KAPTON");
   Block         BAIR(0.01 * m, 0.1 * m,"G4_AIR");
   RidgeFilter* RF = new RidgeFilter(30.*cm, 30.*cm, "G4_Al", "G4_AIR");
@@ -168,11 +168,11 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Add component to the beamline
   // section-1 ==============================================
   bcm.Add(D.New(1.0 * m));
-  //bcm.Add(Q1.NewGradient(9.93 * tesla/m ));
+  bcm.Add(Q1.NewGradient(9.93 * tesla/m ));
   bcm.Add(D.New(0.5 * m));
-  //bcm.Add(Q1.NewGradient(-14.35 * tesla/m));
+  bcm.Add(Q1.NewGradient(-14.35 * tesla/m));
   bcm.Add(D.New(0.75 * m));
-  //bcm.Add(Q1.NewGradient(14.13 * tesla/m));
+  bcm.Add(Q1.NewGradient(14.13 * tesla/m));
   bcm.Add(D.New(1.25 * m));
   //bcm.Add(mon.New());
   // ========================================================
@@ -185,23 +185,23 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // section-2 ==============================================
   bcm.Add(Degrader.New());
   bcm.Add(D.New(0.6 * m));
-  //bcm.Add(col.NewGap(1.4 * cm));
+  bcm.Add(col.NewGap(1.4 * cm));
   bcm.Add(D.New(0.1 * m));
-  //bcm.Add(col.NewGap(1.5 * cm, 90.0 * deg));
+  bcm.Add(col.NewGap(1.5 * cm, 90.0 * deg));
   bcm.Add(D.New(1.2 * m));
-  //bcm.Add(col.NewGap(1.4 * cm));
+  bcm.Add(col.NewGap(1.4 * cm));
   bcm.Add(D.New(0.1 * m));
-  //bcm.Add(col.NewGap(2.0 * cm, 90.0 * deg));
+  bcm.Add(col.NewGap(2.0 * cm, 90.0 * deg));
   bcm.Add(D.New(0.34 * m));
-  //bcm.Add(Q2.NewGradient(-5.96 * tesla/m));
+  bcm.Add(Q2.NewGradient(-5.96 * tesla/m));
   bcm.Add(D.New(0.57 * m));
-  //bcm.Add(Q2.NewGradient(12.46 * tesla/m));
+  bcm.Add(Q2.NewGradient(12.46 * tesla/m));
   bcm.Add(D.New(0.74 * m));
-  //bcm.Add(Q2.NewGradient(-8.98 * tesla/m));
+  bcm.Add(Q2.NewGradient(-8.98 * tesla/m));
   bcm.Add(D.New(0.1 * m));
-  //bcm.Add(col.NewGap(2.5 * cm));
+  bcm.Add(col.NewGap(2.5 * cm));
   bcm.Add(D.New(0.1 * m));
-  //bcm.Add(col.NewGap(2.5 * cm, 90.0 * deg));
+  bcm.Add(col.NewGap(2.5 * cm, 90.0 * deg));
   // ========================================================
 
   // section-3 ==============================================
@@ -210,28 +210,28 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   const G4double QP3_2_SCALE =  9.650 * tesla/m;
 
   bcm.Add(D.New(0.2 * m));
-  //bcm.Add(B.NewScale(DIPOLE_SCALE));
+  bcm.Add(B.NewScale(DIPOLE_SCALE));
   bcm.Add(D.New(0.6 * m));
-  //bcm.Add(B.NewScale(DIPOLE_SCALE));
+  bcm.Add(B.NewScale(DIPOLE_SCALE));
   bcm.Add(D.New(0.6 * m));
-  //bcm.Add(Q3.NewGradient(QP3_1_SCALE));
+  bcm.Add(Q3.NewGradient(QP3_1_SCALE));
   bcm.Add(D.New(0.5 * m));
-  //bcm.Add(Q3.NewGradient(QP3_2_SCALE));
+  bcm.Add(Q3.NewGradient(QP3_2_SCALE));
   bcm.Add(D.New(0.7 * m));
-  //bcm.Add(col.NewGap(3.3 * cm));
+  bcm.Add(col.NewGap(3.3 * cm));
   //bcm.Add(mon.New());
 
   bcm.Add(D.New(0.7 * m));
-  //bcm.Add(Q3.NewGradient(QP3_2_SCALE));
+  bcm.Add(Q3.NewGradient(QP3_2_SCALE));
   bcm.Add(D.New(0.5 * m));
-  //bcm.Add(Q3.NewGradient(QP3_1_SCALE));
+  bcm.Add(Q3.NewGradient(QP3_1_SCALE));
   bcm.Add(D.New(0.6 * m));
-  //bcm.Add(B.NewScale(DIPOLE_SCALE));
-  //bcm.Add(D.New(0.6 * m));
-  //bcm.Add(B.NewScale(DIPOLE_SCALE));
+  bcm.Add(B.NewScale(DIPOLE_SCALE));
+  bcm.Add(D.New(0.6 * m));
+  bcm.Add(B.NewScale(DIPOLE_SCALE));
   bcm.Add(D.New(0.2 * m));
   // ========================================================
-  //bcm.Add(mon.New());
+  bcm.Add(mon.New());
 
 
   /*
@@ -320,8 +320,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   MLC->SetLeaf(10, 5.*cm, 5.*cm);
   */
 
-//<<<<<<< .mine
-//=======
+<<<<<<< .mine
+=======
   // Add component to the beamline
   /*
   bcm.Add(D.New(0.5 * m));
@@ -334,8 +334,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   bcm.Add(mon.New());
 >>>>>>> .r50
 
-//<<<<<<< .mine
-//=======
+<<<<<<< .mine
+=======
   bcm.Add(Degrader.New());
 
   bcm.Add(D.New(0.4 * m));
@@ -393,5 +393,5 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   return pv;
   /* end of real code */
 
-//>>>>>>> .r50
+>>>>>>> .r50
 }
