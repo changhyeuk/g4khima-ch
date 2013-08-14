@@ -29,9 +29,6 @@
 
 /run/initialize
 
-<<<<<<< .mine
 /run/beamOn 1 # for the test
-=======
-/run/beamOn 100000 # for the test
->>>>>>> .r50
+
 
