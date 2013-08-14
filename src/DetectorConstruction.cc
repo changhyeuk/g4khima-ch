@@ -67,7 +67,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //bcm.Add(BAIR.New(0.1 * m));
   //bcm.Add(MLC);
   //bcm.Add(BAIR.New(0.1 * m));
-  bcm.Add(WP.New());
+  //bcm.Add(WP.New());
 
 
   VirtualMonitor mon(8.0 * cm, 8.0 * cm);
