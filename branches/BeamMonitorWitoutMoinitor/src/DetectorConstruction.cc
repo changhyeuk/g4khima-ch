@@ -69,9 +69,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   // Kepton Window
   bcm.Add(BKAPTON.New(200.0 * um));
   // Air Drift
-  bcm.Add(BAIR1.New(0.1*m));
+  bcm.Add(BAIR1.New(0.135*m));
   
   // Monitor
+    /*
     // Monitor Cover Front
     bcm.Add(BPET.New(25.0 * um));
     bcm.Add(BGAIR.New(0.005 * m));
@@ -106,7 +107,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     //Monitor Cover Back
     bcm.Add(BGAIR.New(0.005 * m));
     bcm.Add(BPET.New(25.0 * um));
-    
+    */
   // Air Drift
   bcm.Add(mon.New());
   bcm.Add(BAIR2.New(0.5*m));
