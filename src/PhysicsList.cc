@@ -27,7 +27,7 @@ PhysicsList::PhysicsList()
   :G4VUserPhysicsList()
 {
   SetVerboseLevel(0);
-  //defaultCutValue = 1.0 * mm;
+  defaultCutValue = 10.0 * um;
   emPhys             = new G4EmStandardPhysics_option3();
   decayPhys          = new G4DecayPhysics();
   //radioDecayPhys     = new G4RadioactiveDecayPhysics();

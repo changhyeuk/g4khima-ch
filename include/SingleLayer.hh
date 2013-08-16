@@ -12,8 +12,8 @@ struct SingleLayer
     {
       material  = m;
       thickness = t;
-      rangecut  = 1.0 * mm;
-      steplimit = 0.5 * mm;
+        rangecut  = 0.01 * mm; // 1.0 * mm;
+        steplimit = 10.0 * um;// 0.5 * mm;
     };
     
     SingleLayer(const char* m, G4double t, G4double cut, G4double stp)
