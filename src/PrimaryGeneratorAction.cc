@@ -32,8 +32,8 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   AnalysisManager* ana = AnalysisManager::GetInstance();
-    const G4double Z = 1.0; // 6.0;
-    const G4double A = 1.0; //12.0;
+    const G4double Z = 6.0;
+    const G4double A = 12.0;
   G4ParticleDefinition* pdef =
     G4ParticleTable::GetParticleTable()->FindIon(Z, A, 0, 0); // dummy 0, 0
   gun->SetParticleDefinition(pdef);
