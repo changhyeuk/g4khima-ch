@@ -21,7 +21,7 @@ Block::Block(const G4double thick, const G4double totlength, const char* bm)
 {
   thickness = thick;
   total_length  = totlength;
-  // Test Update
+
   try
   {
     body_mat =
