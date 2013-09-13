@@ -88,7 +88,7 @@ void WaterPhantom::Generate(const G4RotationMatrix& R0,
                                                                    VC,
                                                                    150,-HalfX/2,HalfX/2,
                                                                    150,-HalfY/2,HalfY/2,
-                                                                   200,-HalfZ/2,HalfZ/2));
+                                                                   400,-HalfZ/2,HalfZ/2));
     
     l_blk->SetVisAttributes(new G4VisAttributes(cGreen));
     G4RotationMatrix* rr = new G4RotationMatrix(R0);

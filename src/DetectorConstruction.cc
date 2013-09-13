@@ -20,6 +20,7 @@
 #include "ThinCollimator.hh"
 #include "WaterPhantom.hh"
 #include "MultiLeafCollimator.hh"
+//#include "CalorimeterBlock.cc"
 
 #include "G4Material.hh"
 #include "G4Box.hh"
@@ -76,9 +77,13 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   Block         BKAPTON(0.01 * m, 0.1 * m,"G4_KAPTON");
   Block         BAIR(0.01 * m, 0.1 * m,"G4_AIR");
   WaterPhantom  WP(0.3 * m, 0.3 * m, 0.4 * m, "G4_WATER");
+  //CalorimeterBlock WB(0.3 * m, 0.3 * m, 0.4 * m, "G4_WATER");
  
   bcm.Add(D.New(0.4 * m));
   bcm.Add(WP.New());
+    //bcm.Add(WB.New());
+    
+    
 
     
   G4VPhysicalVolume* pv = bcm.GenerateVolume();

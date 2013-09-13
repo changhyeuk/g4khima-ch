@@ -389,7 +389,7 @@ void AnalysisManager::FillCaloHisto1D(const G4String isdname,
         G4double radi = sqrt(pow(hit->GetPosition().x(),2)+
                              pow(hit->GetPosition().y(),2)); // Unit : mm
 
-        if (radi <= 200 )
+        if (radi <= 150) //200 )
         {
             histos1d[i_dose]->Fill(hit->GetPosition().z(),
                                    hit->GetEdeposit());
