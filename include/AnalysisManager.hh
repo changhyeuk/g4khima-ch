@@ -66,6 +66,7 @@ public:
   // booking must be done after registration of sensitive detector.
   // because of s_id searching.
   void BookTrackTuple(const G4String isdname);
+  void BookCaloTuple(const G4String isdname);
   void BookCaloHisto3D(const G4String isdname,
                        const G4int inx,
                        const G4double ixmin, const G4double ixmax,

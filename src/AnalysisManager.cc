@@ -124,6 +124,34 @@ void AnalysisManager::BookTrackTuple(const G4String isdname)
 }
 
 //==========================================================================
+void AnalysisManager::BookCaloTuple(const G4String isdname)
+{
+    // find tuple on existing list
+    G4bool found_sdname = false;
+    const G4int tuple_size = tuplenames.size();
+    for (G4int i = 0; i < tuple_size; ++i)
+    {
+        if (isdname == tuplenames[i])
+        {
+            found_sdname = true;
+            break;
+        }
+    }
+    if (found_sdname)
+    {
+        //std::cout << "[AM]" << isdname << " already exist!!" << std::endl;
+    }
+    else
+    {
+        const char* n_chr = isdname.c_str();
+        // MAXFieldNumber of TNtuple is 15
+        TNtuple* tpl = new TNtuple(n_chr, n_chr, "pid:Z:A:x:y:z:w:e");
+        tuplenames.push_back(isdname);
+        tuples.push_back(tpl);
+    }
+}
+
+//==========================================================================
 void AnalysisManager::BookCaloHisto3D(const G4String isdname,
                                       const G4int    inx,
                                       const G4double ixmin,
