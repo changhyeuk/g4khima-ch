@@ -241,6 +241,41 @@ void AnalysisManager::FillTrackTuple(const G4String isdname,
 }
 
 //==========================================================================
+void AnalysisManager::FillCaloTuple(const G4String isdname,
+                                    const CaloHitsCollection* hc)
+{
+    G4bool found_sdname = false;
+    const G4int tuple_size = tuplenames.size();
+    G4int i = 0;
+    for (; i < tuple_size; ++i)
+    {
+        if (isdname == tuplenames[i])
+        {
+            found_sdname = true;
+            break;
+        }
+    }
+    if (!found_sdname) return;
+    // tuples[i] is the one we've found
+    
+    std::vector<CaloHit*>* hits = hc->GetVector();
+    for (std::vector<CaloHit*>::iterator it = hits->begin();
+         it != hits->end();
+         ++it)
+    {
+        tuples[i]->Fill((*it)->GetParticleId(),
+                        (*it)->GetAtomicNumber(),
+                        (*it)->GetAtomicMass(),
+                        (*it)->GetPosition().x(),
+                        (*it)->GetPosition().y(),
+                        (*it)->GetPosition().z(),
+                        (*it)->GetEdeposit(),
+                        (*it)->GetDedx());
+    }
+}
+
+
+//==========================================================================
 void AnalysisManager::FillCaloHisto3D(const G4String isdname,
                                       const CaloHitsCollection* hc)
 {
