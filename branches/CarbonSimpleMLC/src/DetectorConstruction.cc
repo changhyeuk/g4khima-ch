@@ -76,7 +76,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
    */
   Block         BKAPTON(0.01 * m, 0.1 * m,"G4_KAPTON");
   Block         BAIR(0.01 * m, 0.1 * m,"G4_AIR");
-  WaterPhantom  WP(0.3 * m, 0.3 * m, 0.4 * m, "G4_WATER");
+  WaterPhantom  WP(0.3 * m, 0.3 * m, 0.4 * m, "G4_Fe");
   //CalorimeterBlock WB(0.3 * m, 0.3 * m, 0.4 * m, "G4_WATER");
  
   bcm.Add(D.New(0.4 * m));
