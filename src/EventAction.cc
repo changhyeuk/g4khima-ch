@@ -44,7 +44,8 @@ void EventAction::EndOfEventAction(const G4Event* e)
     else if (hchead == "Calo")
     {
       //ana->FillCaloHisto3D(hcname, (CaloHitsCollection*) hcte->GetHC(i));
-        ana->FillCaloHisto1D(hcname, (CaloHitsCollection*) hcte->GetHC(i));
+      //ana->FillCaloHisto1D(hcname, (CaloHitsCollection*) hcte->GetHC(i));
+        ana->FillCaloTuple(hcname,(CaloHitsCollection*) hcte->GetHC(i));
     }
   }
 }

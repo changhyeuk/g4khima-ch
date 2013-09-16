@@ -124,6 +124,34 @@ void AnalysisManager::BookTrackTuple(const G4String isdname)
 }
 
 //==========================================================================
+void AnalysisManager::BookCaloTuple(const G4String isdname)
+{
+    // find tuple on existing list
+    G4bool found_sdname = false;
+    const G4int tuple_size = tuplenames.size();
+    for (G4int i = 0; i < tuple_size; ++i)
+    {
+        if (isdname == tuplenames[i])
+        {
+            found_sdname = true;
+            break;
+        }
+    }
+    if (found_sdname)
+    {
+        //std::cout << "[AM]" << isdname << " already exist!!" << std::endl;
+    }
+    else
+    {
+        const char* n_chr = isdname.c_str();
+        // MAXFieldNumber of TNtuple is 15
+        TNtuple* tpl = new TNtuple(n_chr, n_chr, "pid:Z:A:x:y:z:w:e");
+        tuplenames.push_back(isdname);
+        tuples.push_back(tpl);
+    }
+}
+
+//==========================================================================
 void AnalysisManager::BookCaloHisto3D(const G4String isdname,
                                       const G4int    inx,
                                       const G4double ixmin,
@@ -239,6 +267,41 @@ void AnalysisManager::FillTrackTuple(const G4String isdname,
                     (*it)->GetKineticEnergy());
   }
 }
+
+//==========================================================================
+void AnalysisManager::FillCaloTuple(const G4String isdname,
+                                    const CaloHitsCollection* hc)
+{
+    G4bool found_sdname = false;
+    const G4int tuple_size = tuplenames.size();
+    G4int i = 0;
+    for (; i < tuple_size; ++i)
+    {
+        if (isdname == tuplenames[i])
+        {
+            found_sdname = true;
+            break;
+        }
+    }
+    if (!found_sdname) return;
+    // tuples[i] is the one we've found
+    
+    std::vector<CaloHit*>* hits = hc->GetVector();
+    for (std::vector<CaloHit*>::iterator it = hits->begin();
+         it != hits->end();
+         ++it)
+    {
+        tuples[i]->Fill((*it)->GetParticleId(),
+                        (*it)->GetAtomicNumber(),
+                        (*it)->GetAtomicMass(),
+                        (*it)->GetPosition().x(),
+                        (*it)->GetPosition().y(),
+                        (*it)->GetPosition().z(),
+                        (*it)->GetEdeposit(),
+                        (*it)->GetDedx());
+    }
+}
+
 
 //==========================================================================
 void AnalysisManager::FillCaloHisto3D(const G4String isdname,
@@ -389,7 +452,7 @@ void AnalysisManager::FillCaloHisto1D(const G4String isdname,
         G4double radi = sqrt(pow(hit->GetPosition().x(),2)+
                              pow(hit->GetPosition().y(),2)); // Unit : mm
 
-        if (radi <= 200 )
+        if (radi <= 150) //200 )
         {
             histos1d[i_dose]->Fill(hit->GetPosition().z(),
                                    hit->GetEdeposit());
