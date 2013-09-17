@@ -51,11 +51,19 @@ G4bool TrackerSD::ProcessHits(G4Step* istp, G4TouchableHistory*)
   G4Track* trk = istp->GetTrack();
   TrackHit* hit = new TrackHit();
   G4int PDGencoding = trk->GetDefinition()->GetPDGEncoding();
+  //G4ParticleDefinition *particleDef = trk->GetDefinition();
+  //G4String particleName = particleDef->GetParticleName();
+   // G4cout<<" Particle Name : "<<particleName<<" PDGendcodint : "<<PDGencoding<<G4endl;
+    
+  if (PDGencoding == 2112)
+  {
+      
   hit->SetParticleId(PDGencoding);
   hit->SetTrackId(trk->GetTrackID());
   hit->SetPosition(R * (trk->GetPosition() - V));
   hit->SetMomentum(R * trk->GetMomentum());
   hit->SetKineticEnergy(trk->GetKineticEnergy());
+      
   G4int L = 0, A = 0, Z = 0, I = 0, TMP = 0;
   if ((PDGencoding > 100000000) || (PDGencoding < -100000000))
   { // if nuclei
@@ -72,6 +80,7 @@ G4bool TrackerSD::ProcessHits(G4Step* istp, G4TouchableHistory*)
     hit->SetIsomericExtEnergy(I);
   }
   hits->insert(hit);
+  }
   return true;
 }
 

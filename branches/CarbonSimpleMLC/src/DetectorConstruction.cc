@@ -64,6 +64,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     
   
   DriftSpace    D(0.4 * m);
+  VirtualMonitor mon(15.0 * cm, 15.0 * cm);
   /*
   ScanDipoleMagnet SMx(6.0 * cm,        // tube_full_height
                        15.0 * cm,       // tube_full_width
@@ -81,6 +82,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
  
   bcm.Add(D.New(0.4 * m));
   bcm.Add(WP.New());
+    bcm.Add(mon.New());
+    
     //bcm.Add(WB.New());
     
     
