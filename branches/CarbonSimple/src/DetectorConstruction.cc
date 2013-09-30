@@ -14,6 +14,7 @@
 #include "RidgeFilter.hh"
 #include "MultiLeafCollimator.hh"
 #include "Block.hh"
+#include "Slab.hh"
 #include "ScanDipoleMagnet.hh"
 #include "FieldTable.hh"
 #include "VirtualMonitor.hh"
@@ -74,8 +75,17 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                        field_exp_scale, // field_exp_scale
                        "G4_Fe");
    */
-  Block         BKAPTON(0.01 * m, 0.1 * m,"G4_KAPTON");
+
+  Slab BPET(0.3*m,0.3*m,25.0*um,"G4_POLYETHYLENE");
+  Slab BCU(0.3*m,0.3*m,50.0*um,"G4_Cu");
+  Slab BPG(0.3*m,0.3*m,200.0*um,"G4_Pyrex_Glass");
+  Slab BGAIR(0.3*m,0.3*m,5.0*mm,"G4_AIR");
+
+  Block         BKAPTON(0.1*mm, 0.1*mm,"G4_KAPTON");
   Block         BAIR(0.01 * m, 0.1 * m,"G4_AIR");
+    
+  Slab BRSF(0.3*m,0.3*m,25.0*mm,"G4_PLEXIGLASS");
+    
   RidgeFilter* RF = new RidgeFilter(30.*cm, 30.*cm, "G4_Al", "G4_AIR");
     RF->Add2DCrxPoint(1.*mm,   2.*mm);
     RF->Add2DCrxPoint(2.*mm,   4.*mm);
@@ -89,7 +99,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   MultiLeafCollimator* MLC
     = new MultiLeafCollimator(25.*cm, 25.*cm, 15.*cm, "G4_Fe", "G4_AIR");
     MLC->DefineLeaf(40, 0.25*cm);
-    //MLC->DefineLeaf(5, 2.0*cm); // leafs are totally 40(left) + 40(right)
     
     MLC->SetLeaf(40,   0.*cm, 0.*cm);
     MLC->SetLeaf(39,   -0.5*cm, 0.5*cm);
@@ -172,45 +181,68 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     MLC->SetLeaf(-38,   -1.*cm, 1.*cm);
     MLC->SetLeaf(-39,   -0.5*cm, 0.5*cm);
     MLC->SetLeaf(-40,   0.*cm, 0.*cm);
-
-    /*
-    MLC->SetLeaf(-10,  0.*cm, 1.*cm);
-    MLC->SetLeaf(- 9, -1.*cm, 1.*cm);
-    MLC->SetLeaf(- 8, -2.*cm, 2.*cm);
-    MLC->SetLeaf(- 7, -3.*cm, 3.*cm);
-    MLC->SetLeaf(- 6, -4.*cm, 4.*cm);
-    
-    MLC->SetLeaf(- 5, -10.*cm, -10.*cm);
-    MLC->SetLeaf(- 4, -11.*cm, -9.*cm);
-    MLC->SetLeaf(- 3, -12.*cm, -8.*cm);
-    MLC->SetLeaf(- 2, -13.*cm, -7.*cm);
-    MLC->SetLeaf(- 1, -14.*cm, -6.*cm);
-    
-    MLC->SetLeaf( 1, 5.*cm, 5.*cm);
-    MLC->SetLeaf( 2, 4.*cm, 6.*cm);
-    MLC->SetLeaf( 3, 3.*cm, 7.*cm);
-    MLC->SetLeaf( 4, 2.*cm, 8.*cm);
-    MLC->SetLeaf( 5, 1.*cm, 9.*cm);
-    
-    MLC->SetLeaf( 6, 1.*cm, 9.*cm);
-    MLC->SetLeaf( 7, 2.*cm, 8.*cm);
-    MLC->SetLeaf( 8, 3.*cm, 7.*cm);
-    MLC->SetLeaf( 9, 4.*cm, 6.*cm);
-    MLC->SetLeaf(10, 5.*cm, 5.*cm);
-     */
-    
   WaterPhantom  WP(0.3 * m, 0.3 * m, 0.4 * m, "G4_WATER");
+  VirtualMonitor mon(20.0 *cm,20.0 *cm);
     
-  bcm.Add(D.New(0.4 * m));
-  bcm.Add(RF);
-  bcm.Add(BAIR.New(0.1 * m));
-  bcm.Add(MLC);
-  //bcm.Add(WP.New());
-    //bcm.Add(WB.New());
-    
-    
+  // ************************ Beam Line *************************
+  
 
+
+  bcm.Add(D.New(0.2 * m));
+  bcm.Add(BKAPTON.New());
+  bcm.Add(BAIR.New(0.1 * m));
+
+  // Monitor ======================================================
+    // Monitor Cover Front
+    bcm.Add(BPET.New());
+    bcm.Add(BGAIR.New());
+    // Dose Monitor 1
+    bcm.Add(BPET.New());
+    bcm.Add(BGAIR.New());
+    bcm.Add(BCU.New());
+    bcm.Add(BPG.New());
+    // Gap
+    bcm.Add(BGAIR.New());
+    // Dose Monitor 2
+    bcm.Add(BPET.New());
+    bcm.Add(BGAIR.New());
+    bcm.Add(BCU.New());
+    bcm.Add(BPG.New());
+    // Gap
+    bcm.Add(BGAIR.New());
+    // Position Monitor 1
+    bcm.Add(BPET.New());
+    bcm.Add(BGAIR.New());
+    bcm.Add(BCU.New());
+    bcm.Add(BPG.New());
+    // Gap
+    bcm.Add(BGAIR.New());
+    // Position Monitor 2
+    bcm.Add(BPET.New());
+    bcm.Add(BGAIR.New());
+    bcm.Add(BCU.New());
+    bcm.Add(BPG.New());
     
+    //Monitor Cover Back
+    bcm.Add(BGAIR.New());
+    bcm.Add(BPET.New());
+    
+    bcm.Add(BAIR.New(0.2 * m));
+  
+  // RGF ======================================================
+  bcm.Add(RF);
+    bcm.Add(BAIR.New(0.1 * m));
+
+  // RSF ======================================================
+
+  // MLC ======================================================
+  bcm.Add(MLC);
+    bcm.Add(BAIR.New(0.1 * m));
+
+  bcm.Add(mon.New());
+  bcm.Add(WP.New());
+    //bcm.Add(WB.New());
+
   G4VPhysicalVolume* pv = bcm.GenerateVolume();
 
   return pv;
