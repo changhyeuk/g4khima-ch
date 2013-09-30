@@ -87,11 +87,94 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     RF->AddSpace(3.0 * mm);
     
   MultiLeafCollimator* MLC
-    = new MultiLeafCollimator(40.*cm, 40.*cm, 10.*cm, "G4_Al", "G4_AIR");
-    MLC->DefineLeaf(5, 1.0*cm);
-    MLC->DefineLeaf(5, 2.0*cm); // leafs are totally 40(left) + 40(right)
+    = new MultiLeafCollimator(25.*cm, 25.*cm, 15.*cm, "G4_Fe", "G4_AIR");
+    MLC->DefineLeaf(40, 0.25*cm);
+    //MLC->DefineLeaf(5, 2.0*cm); // leafs are totally 40(left) + 40(right)
     
-    MLC->SetLeaf(-10,  0.*cm, 0.*cm);
+    MLC->SetLeaf(40,   0.*cm, 0.*cm);
+    MLC->SetLeaf(39,   -0.5*cm, 0.5*cm);
+    MLC->SetLeaf(38,   -1.*cm, 1.*cm);
+    MLC->SetLeaf(37,   -1.5*cm, 1.5*cm);
+    MLC->SetLeaf(36,   -2.*cm, 2.*cm);
+    MLC->SetLeaf(35,   -2.5*cm, 2.5*cm);
+    MLC->SetLeaf(34,   -3.*cm, 3.*cm);
+    MLC->SetLeaf(33,   -3.5*cm, 3.5*cm);
+    MLC->SetLeaf(32,   -4.*cm, 4.*cm);
+    MLC->SetLeaf(31,   -4.5*cm, 4.5*cm);
+    MLC->SetLeaf(30,   -5.*cm, 5.*cm);
+    MLC->SetLeaf(29,   -5.5*cm, 5.5*cm);
+    MLC->SetLeaf(28,   -6.*cm, 6.*cm);
+    MLC->SetLeaf(27,   -6.5*cm, 6.5*cm);
+    MLC->SetLeaf(26,   -7.*cm, 7.*cm);
+    MLC->SetLeaf(25,   -7.5*cm, 7.5*cm);
+    MLC->SetLeaf(24,   -8.*cm, 8.*cm);
+    MLC->SetLeaf(23,   -8.5*cm, 8.5*cm);
+    MLC->SetLeaf(22,   -9.*cm, 9.*cm);
+    MLC->SetLeaf(21,   -9.5*cm, 9.5*cm);
+    MLC->SetLeaf(20,   -10.*cm, 10.*cm);
+    MLC->SetLeaf(19,   -10.5*cm, 10.5*cm);
+    MLC->SetLeaf(18,   -11.*cm, 11.*cm);
+    MLC->SetLeaf(17,   -11.5*cm, 11.5*cm);
+    MLC->SetLeaf(16,   -12.*cm, 12.*cm);
+    MLC->SetLeaf(15,   -12.*cm, 12.*cm);//-12.5*cm, 12.5*cm);
+    MLC->SetLeaf(14,   -12.*cm, 12.*cm);//-13.*cm, 13.*cm);
+    MLC->SetLeaf(13,   -12.*cm, 12.*cm);//-13.5*cm, 13.5*cm);
+    MLC->SetLeaf(12,   -12.*cm, 12.*cm);//-14.*cm, 14.*cm);
+    MLC->SetLeaf(11,   -12.*cm, 12.*cm);//-14.5*cm, 14.5*cm);
+    MLC->SetLeaf(10,   -12.*cm, 12.*cm);//-15.*cm, 15.*cm);
+    MLC->SetLeaf( 9,   -12.*cm, 12.*cm);//-15.5*cm, 15.5*cm);
+    MLC->SetLeaf( 8,   -12.*cm, 12.*cm);//-16.*cm, 16.*cm);
+    MLC->SetLeaf( 7,   -12.*cm, 12.*cm);//-16.5*cm, 16.5*cm);
+    MLC->SetLeaf( 6,   -12.*cm, 12.*cm);//-17.*cm, 17.*cm);
+    MLC->SetLeaf( 5,   -12.*cm, 12.*cm);//-17.5*cm, 17.5*cm);
+    MLC->SetLeaf( 4,   -12.*cm, 12.*cm);//-18.*cm, 18.*cm);
+    MLC->SetLeaf( 3,   -12.*cm, 12.*cm);//-18.5*cm, 18.5*cm);
+    MLC->SetLeaf( 2,   -12.*cm, 12.*cm);//-19.*cm, 19.*cm);
+    MLC->SetLeaf( 1,   -12.*cm, 12.*cm);//-19.5*cm, 19.5*cm);
+    
+    MLC->SetLeaf( -1,   -12.*cm, 12.*cm);//-19.5*cm, 19.5*cm);
+    MLC->SetLeaf( -2,   -12.*cm, 12.*cm);//-19.*cm, 19.*cm);
+    MLC->SetLeaf( -3,   -12.*cm, 12.*cm);//-18.5*cm, 18.5*cm);
+    MLC->SetLeaf( -4,   -12.*cm, 12.*cm);//-18.*cm, 18.*cm);
+    MLC->SetLeaf( -5,   -12.*cm, 12.*cm);//-17.5*cm, 17.5*cm);
+    MLC->SetLeaf( -6,   -12.*cm, 12.*cm);//-17.*cm, 17.*cm);
+    MLC->SetLeaf( -7,   -12.*cm, 12.*cm);//-16.5*cm, 16.5*cm);
+    MLC->SetLeaf( -8,   -12.*cm, 12.*cm);//-16.*cm, 16.*cm);
+    MLC->SetLeaf( -9,   -12.*cm, 12.*cm);//-15.5*cm, 15.5*cm);
+    MLC->SetLeaf(-10,   -12.*cm, 12.*cm);//-15.*cm, 15.*cm);
+    MLC->SetLeaf(-11,   -12.*cm, 12.*cm);//-14.5*cm, 14.5*cm);
+    MLC->SetLeaf(-12,   -12.*cm, 12.*cm);//-14.*cm, 14.*cm);
+    MLC->SetLeaf(-13,   -12.*cm, 12.*cm);//-13.5*cm, 13.5*cm);
+    MLC->SetLeaf(-14,   -12.*cm, 12.*cm);//-13.*cm, 13.*cm);
+    MLC->SetLeaf(-15,   -12.*cm, 12.*cm);//-12.5*cm, 12.5*cm);
+    MLC->SetLeaf(-16,   -12.*cm, 12.*cm);//-12.*cm, 12.*cm);
+    MLC->SetLeaf(-17,   -11.5*cm, 11.5*cm);
+    MLC->SetLeaf(-18,   -11.*cm, 11.*cm);
+    MLC->SetLeaf(-19,   -10.5*cm, 10.5*cm);
+    MLC->SetLeaf(-20,   -10.*cm, 10.*cm);
+    MLC->SetLeaf(-21,   -9.5*cm, 9.5*cm);
+    MLC->SetLeaf(-22,   -9.*cm, 9.*cm);
+    MLC->SetLeaf(-23,   -8.5*cm, 8.5*cm);
+    MLC->SetLeaf(-24,   -8.*cm, 8.*cm);
+    MLC->SetLeaf(-25,   -7.5*cm, 7.5*cm);
+    MLC->SetLeaf(-26,   -7.*cm, 7.*cm);
+    MLC->SetLeaf(-27,   -6.5*cm, 6.5*cm);
+    MLC->SetLeaf(-28,   -6.*cm, 6.*cm);
+    MLC->SetLeaf(-29,   -5.5*cm, 5.5*cm);
+    MLC->SetLeaf(-30,   -5.*cm, 5.*cm);
+    MLC->SetLeaf(-31,   -4.5*cm, 4.5*cm);
+    MLC->SetLeaf(-32,   -4.*cm, 4.*cm);
+    MLC->SetLeaf(-33,   -3.5*cm, 3.5*cm);
+    MLC->SetLeaf(-34,   -3.*cm, 3.*cm);
+    MLC->SetLeaf(-35,   -2.5*cm, 2.5*cm);
+    MLC->SetLeaf(-36,   -2.*cm, 2.*cm);
+    MLC->SetLeaf(-37,   -1.5*cm, 1.5*cm);
+    MLC->SetLeaf(-38,   -1.*cm, 1.*cm);
+    MLC->SetLeaf(-39,   -0.5*cm, 0.5*cm);
+    MLC->SetLeaf(-40,   0.*cm, 0.*cm);
+
+    /*
+    MLC->SetLeaf(-10,  0.*cm, 1.*cm);
     MLC->SetLeaf(- 9, -1.*cm, 1.*cm);
     MLC->SetLeaf(- 8, -2.*cm, 2.*cm);
     MLC->SetLeaf(- 7, -3.*cm, 3.*cm);
@@ -114,13 +197,15 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     MLC->SetLeaf( 8, 3.*cm, 7.*cm);
     MLC->SetLeaf( 9, 4.*cm, 6.*cm);
     MLC->SetLeaf(10, 5.*cm, 5.*cm);
+     */
+    
   WaterPhantom  WP(0.3 * m, 0.3 * m, 0.4 * m, "G4_WATER");
     
   bcm.Add(D.New(0.4 * m));
   bcm.Add(RF);
   bcm.Add(BAIR.New(0.1 * m));
   bcm.Add(MLC);
-  bcm.Add(WP.New());
+  //bcm.Add(WP.New());
     //bcm.Add(WB.New());
     
     
