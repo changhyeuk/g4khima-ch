@@ -21,6 +21,7 @@
 #include "ThinCollimator.hh"
 #include "WaterPhantom.hh"
 #include "MultiLeafCollimator.hh"
+#include "RangeShifter.hh"
 //#include "CalorimeterBlock.cc"
 
 #include "G4Material.hh"
@@ -60,10 +61,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //Ri.rotateX(19.0 * deg);
   //bcm.SetInitRotationMatrix(Ri);
 
-    // Test Subversion
-    // From macbook pro thorugh google
-    
-  
+
   DriftSpace    D(0.4 * m);
   /*
   ScanDipoleMagnet SMx(6.0 * cm,        // tube_full_height
@@ -85,7 +83,16 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   Block         BAIR(0.01 * m, 0.1 * m,"G4_AIR");
     
   Slab BRSF(0.3*m,0.3*m,25.0*mm,"G4_PLEXIGLASS");
+
+    RangeShifter RSF(0.3*m, 0.3*m, 0.1*m, 1, "G4_PLEXIGLASS","G4_AIR");
+    VirtualMonitor mon(20.0 *cm,20.0 *cm);
     
+  bcm.Add(D.New(0.1 * m));
+    bcm.Add(RSF.New());
+    bcm.Add(D.New(0.1*m));
+    bcm.Add(mon.New());
+
+  /*
   RidgeFilter* RF = new RidgeFilter(30.*cm, 30.*cm, "G4_Al", "G4_AIR");
     RF->Add2DCrxPoint(1.*mm,   2.*mm);
     RF->Add2DCrxPoint(2.*mm,   4.*mm);
@@ -191,7 +198,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   bcm.Add(D.New(0.2 * m));
   bcm.Add(BKAPTON.New());
   bcm.Add(BAIR.New(0.1 * m));
-
+  
   // Monitor ======================================================
     // Monitor Cover Front
     bcm.Add(BPET.New());
@@ -242,7 +249,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   bcm.Add(mon.New());
   bcm.Add(WP.New());
     //bcm.Add(WB.New());
-
+*/
   G4VPhysicalVolume* pv = bcm.GenerateVolume();
 
   return pv;
