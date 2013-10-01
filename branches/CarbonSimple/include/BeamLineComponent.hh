@@ -23,6 +23,7 @@ enum BLCType
   DummyBlock,
   BLWaterPhantom,
   BLSlab,
+  BLRangeShifter,
   ThinCol,
   VirtualMon,
   Calo,
