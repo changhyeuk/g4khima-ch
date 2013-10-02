@@ -74,25 +74,18 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                        "G4_Fe");
    */
 
+  Slab BKAPTON(0.3*m, 0.3*m,0.2*mm,"G4_KAPTON");
+  Block         BAIR(0.01 * m, 0.1 * m,"G4_AIR");
+  
   Slab BPET(0.3*m,0.3*m,25.0*um,"G4_POLYETHYLENE");
   Slab BCU(0.3*m,0.3*m,50.0*um,"G4_Cu");
   Slab BPG(0.3*m,0.3*m,200.0*um,"G4_Pyrex_Glass");
   Slab BGAIR(0.3*m,0.3*m,5.0*mm,"G4_AIR");
-
-  Block         BKAPTON(0.1*mm, 0.1*mm,"G4_KAPTON");
-  Block         BAIR(0.01 * m, 0.1 * m,"G4_AIR");
+  
+  RangeShifter RSF(0.3*m, 0.3*m, 0.3*m, 8, "G4_PLEXIGLASS","G4_AIR");
+  WaterPhantom  WP(0.3 * m, 0.3 * m, 0.4 * m, "G4_WATER");
+  VirtualMonitor mon(20.0 *cm,20.0 *cm);
     
-  Slab BRSF(0.3*m,0.3*m,25.0*mm,"G4_PLEXIGLASS");
-
-    RangeShifter RSF(0.3*m, 0.3*m, 0.1*m, 1, "G4_PLEXIGLASS","G4_AIR");
-    VirtualMonitor mon(20.0 *cm,20.0 *cm);
-    
-  bcm.Add(D.New(0.1 * m));
-    bcm.Add(RSF.New());
-    bcm.Add(D.New(0.1*m));
-    bcm.Add(mon.New());
-
-  /*
   RidgeFilter* RF = new RidgeFilter(30.*cm, 30.*cm, "G4_Al", "G4_AIR");
     RF->Add2DCrxPoint(1.*mm,   2.*mm);
     RF->Add2DCrxPoint(2.*mm,   4.*mm);
@@ -106,7 +99,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   MultiLeafCollimator* MLC
     = new MultiLeafCollimator(25.*cm, 25.*cm, 15.*cm, "G4_Fe", "G4_AIR");
     MLC->DefineLeaf(40, 0.25*cm);
-    
     MLC->SetLeaf(40,   0.*cm, 0.*cm);
     MLC->SetLeaf(39,   -0.5*cm, 0.5*cm);
     MLC->SetLeaf(38,   -1.*cm, 1.*cm);
@@ -188,19 +180,15 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     MLC->SetLeaf(-38,   -1.*cm, 1.*cm);
     MLC->SetLeaf(-39,   -0.5*cm, 0.5*cm);
     MLC->SetLeaf(-40,   0.*cm, 0.*cm);
-  WaterPhantom  WP(0.3 * m, 0.3 * m, 0.4 * m, "G4_WATER");
-  VirtualMonitor mon(20.0 *cm,20.0 *cm);
     
   // ************************ Beam Line *************************
   
-
-
-  bcm.Add(D.New(0.2 * m));
+  bcm.Add(D.New(0.1 * m));
   bcm.Add(BKAPTON.New());
-  bcm.Add(BAIR.New(0.1 * m));
-  
+    bcm.Add(BAIR.New(0.1 * m));
+
   // Monitor ======================================================
-    // Monitor Cover Front
+  // Monitor Cover Front
     bcm.Add(BPET.New());
     bcm.Add(BGAIR.New());
     // Dose Monitor 1
@@ -208,22 +196,22 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     bcm.Add(BGAIR.New());
     bcm.Add(BCU.New());
     bcm.Add(BPG.New());
-    // Gap
-    bcm.Add(BGAIR.New());
+        // Gap
+        bcm.Add(BGAIR.New());
     // Dose Monitor 2
     bcm.Add(BPET.New());
     bcm.Add(BGAIR.New());
     bcm.Add(BCU.New());
     bcm.Add(BPG.New());
-    // Gap
-    bcm.Add(BGAIR.New());
+        // Gap
+        bcm.Add(BGAIR.New());
     // Position Monitor 1
     bcm.Add(BPET.New());
     bcm.Add(BGAIR.New());
     bcm.Add(BCU.New());
     bcm.Add(BPG.New());
-    // Gap
-    bcm.Add(BGAIR.New());
+        // Gap
+        bcm.Add(BGAIR.New());
     // Position Monitor 2
     bcm.Add(BPET.New());
     bcm.Add(BGAIR.New());
@@ -231,25 +219,26 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     bcm.Add(BPG.New());
     
     //Monitor Cover Back
-    bcm.Add(BGAIR.New());
-    bcm.Add(BPET.New());
+        bcm.Add(BGAIR.New());
+        bcm.Add(BPET.New());
     
-    bcm.Add(BAIR.New(0.2 * m));
+    bcm.Add(BAIR.New(0.1 * m));
   
   // RGF ======================================================
   bcm.Add(RF);
     bcm.Add(BAIR.New(0.1 * m));
 
   // RSF ======================================================
-
+  bcm.Add(RSF.New());
+    bcm.Add(BAIR.New(0.1 * m));
+    
   // MLC ======================================================
   bcm.Add(MLC);
     bcm.Add(BAIR.New(0.1 * m));
 
   bcm.Add(mon.New());
   bcm.Add(WP.New());
-    //bcm.Add(WB.New());
-*/
+    
   G4VPhysicalVolume* pv = bcm.GenerateVolume();
 
   return pv;
