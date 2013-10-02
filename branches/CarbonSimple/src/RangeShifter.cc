@@ -96,13 +96,48 @@ void RangeShifter::Generate(const G4RotationMatrix& R0,
 {
     if (RSFN == 1.0)
     {
-        RSF_p = 75.0 * mm;
-        RSF_t = 20.0 * mm;
+        RSF_p = 5.05;
+        RSF_t = 0.1 * mm;
     }
-    else
+    else if (RSFN == 2.0)
     {
-        RSF_p = 75.0;
-        RSF_t = 20.0;
+        RSF_p = 10.6;
+        RSF_t = 1.0 * mm;
+    }
+    else if (RSFN == 3.0)
+    {
+        RSF_p = 17.1;
+        RSF_t = 2.0 * mm;
+    }
+    else if (RSFN == 4.0)
+    {
+        RSF_p = 25.1;
+        RSF_t = 4.0 * mm;
+    }
+    else if (RSFN == 5.0)
+    {
+        RSF_p = 36.1;
+        RSF_t = 8.0 * mm;
+    }
+    else if (RSFN == 6.0)
+    {
+        RSF_p = 53.1;
+        RSF_t = 16.0 * mm;
+    }
+    else if (RSFN == 7.0)
+    {
+        RSF_p = 82.1;
+        RSF_t = 32.0* mm;
+    }
+    else if (RSFN == 8.0)
+    {
+        RSF_p = 135.1;
+        RSF_t = 64.0* mm;
+    }
+    else if (RSFN == 9.0)
+    {
+        RSF_p = 236.1* mm;
+        RSF_t = 128.0* mm;
     }
     
     if ( HalfZ == 0.0 ) return;
@@ -110,7 +145,7 @@ void RangeShifter::Generate(const G4RotationMatrix& R0,
     const G4ThreeVector VC = V0 + R0 * ( 0.5 * HalfZ * zhat);
     
     G4LogicalVolume* lv_top = new G4LogicalVolume(s_blk,bg_mat,"lv_top");
-    lv_top->SetVisAttributes(new G4VisAttributes(cYellow));
+    lv_top->SetVisAttributes(G4VisAttributes::Invisible);
     
     G4RotationMatrix* rr = new G4RotationMatrix(R0);
     rr->invert();
@@ -129,8 +164,9 @@ void RangeShifter::Generate(const G4RotationMatrix& R0,
                                        RSF_t/2),
                              body_mat,
                              "lv_t");
-    const G4ThreeVector VL = V0 + R0 * ( 0.5 * RSF_p * zhat);
-    lv->SetVisAttributes(new G4VisAttributes(cGreen));
+    //const G4ThreeVector VL = V0 + R0 * ( 0.5 * RSF_p * zhat);
+    const G4ThreeVector VL = R0 *( ( RSF_p - ( HalfZ / 2 )) * zhat );
+    lv->SetVisAttributes(new G4VisAttributes(cSkyBlue));
     new G4PVPlacement(rr,
                       VL,
                       lv,

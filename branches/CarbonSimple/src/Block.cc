@@ -94,7 +94,7 @@ void Block::Generate(const G4RotationMatrix& R0,
   G4Tubs* s_blk = new G4Tubs("degBlock", 0., 100.0 * mm, 0.5 * thickness, 0., 360.0 * deg);
   const G4ThreeVector VC = V0 + R0 * (0.5 * thickness * zhat);
   G4LogicalVolume* l_blk = new G4LogicalVolume(s_blk, body_mat, "l_blk");
-  //l_blk->SetVisAttributes(G4VisAttributes::Invisible);
+  l_blk->SetVisAttributes(G4VisAttributes::Invisible);
   G4RotationMatrix* rr = new G4RotationMatrix(R0);
   rr->invert();
   new G4PVPlacement(rr,
