@@ -33,7 +33,7 @@ G4Colour BeamLineComponent::cSkyBlue(.5, .5, 1.);
 G4Colour BeamLineComponent::cPurple(1., 0., 1.);
 
 G4double BeamLineComponent::mon_t = 0.001 * mm;
-G4double BeamLineComponent::mon_step = 0.1 * mm;
+G4double BeamLineComponent::mon_step = 0.01 * mm;
 G4int    BeamLineComponent::mon_id = 0;
 
 //===================================================================================
