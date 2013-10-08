@@ -49,6 +49,13 @@ void TrackerSD::Initialize(G4HCofThisEvent* hce)
 G4bool TrackerSD::ProcessHits(G4Step* istp, G4TouchableHistory*)
 {
   G4Track* trk = istp->GetTrack();
+  // Chang Add
+  G4ParticleDefinition *pDef = trk -> GetDefinition();
+  G4int Aa = pDef -> GetAtomicMass();
+  G4int Zz = pDef -> GetAtomicNumber();
+  if ( Aa == 12 && Zz == 6)
+  {
+    // Chang Add End
   TrackHit* hit = new TrackHit();
   G4int PDGencoding = trk->GetDefinition()->GetPDGEncoding();
   hit->SetParticleId(PDGencoding);
@@ -72,6 +79,7 @@ G4bool TrackerSD::ProcessHits(G4Step* istp, G4TouchableHistory*)
     hit->SetIsomericExtEnergy(I);
   }
   hits->insert(hit);
+  }
   return true;
 }
 
