@@ -82,7 +82,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   Slab BPG(0.3*m,0.3*m,200.0*um,"G4_Pyrex_Glass");
   Slab BGAIR(0.3*m,0.3*m,5.0*mm,"G4_AIR");
   
-  RangeShifter RSF(0.3*m, 0.3*m, 0.3*m, 3, "G4_PLEXIGLASS","G4_AIR");
+  RangeShifter RSF(0.3*m, 0.3*m, 0.3*m, 7,"G4_AIR","G4_PLEXIGLASS");
   WaterPhantom  WP(0.3 * m, 0.3 * m, 0.4 * m, "G4_WATER");
   VirtualMonitor mon(20.0 *cm,20.0 *cm);
     
@@ -225,8 +225,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     bcm.Add(BAIR.New(0.1 * m));
   
   // RGF ======================================================
-  bcm.Add(RF);
-    bcm.Add(BAIR.New(0.1 * m));
+  //bcm.Add(RF);
+    //bcm.Add(BAIR.New(0.1 * m));
 
   // RSF ======================================================
   bcm.Add(RSF.New());

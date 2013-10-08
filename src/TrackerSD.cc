@@ -53,6 +53,7 @@ G4bool TrackerSD::ProcessHits(G4Step* istp, G4TouchableHistory*)
   G4ParticleDefinition *pDef = trk -> GetDefinition();
   G4int Aa = pDef -> GetAtomicMass();
   G4int Zz = pDef -> GetAtomicNumber();
+    
   if ( Aa == 12 && Zz == 6)
   {
     // Chang Add End

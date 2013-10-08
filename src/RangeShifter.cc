@@ -38,7 +38,7 @@ HalfX(iHalfX),HalfY(iHalfY),HalfZ(iHalfZ),RSFN(iRSFN)
     catch (int i)
     {
         body_mat = G4NistManager::Instance()
-        ->FindOrBuildMaterial("G4_Fe", false);
+        ->FindOrBuildMaterial("G4_PLEXIGLASS", false);
     }
     
     try
@@ -164,7 +164,6 @@ void RangeShifter::Generate(const G4RotationMatrix& R0,
                                        RSF_t/2),
                              body_mat,
                              "lv_t");
-    //const G4ThreeVector VL = V0 + R0 * ( 0.5 * RSF_p * zhat);
     const G4ThreeVector VL = R0 *( ( RSF_p - ( HalfZ / 2 )) * zhat );
     lv->SetVisAttributes(new G4VisAttributes(cSkyBlue));
     new G4PVPlacement(rr,
