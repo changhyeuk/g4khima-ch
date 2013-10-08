@@ -225,7 +225,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     bcm.Add(BAIR.New(0.1 * m));
   
   // RGF ======================================================
-  //bcm.Add(RF);
+  bcm.Add(RF);
     bcm.Add(BAIR.New(0.1 * m));
 
   // RSF ======================================================
