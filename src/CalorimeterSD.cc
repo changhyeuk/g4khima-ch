@@ -32,10 +32,12 @@ CalorimeterSD::CalorimeterSD(const G4String iname,
   :SensitiveDetector(G4String("CalorimeterSD_") + iname, iR, iV)
 {
   AnalysisManager* ana = AnalysisManager::GetInstance();
+  /*
   ana->BookCaloHisto3D(SensitiveDetectorName + "_dose",
                        inx, ixmin, ixmax,
                        iny, iymin, iymax,
                        inz, izmin, izmax);
+    
   ana->BookCaloHisto3D(SensitiveDetectorName + "_letP",
                        inx, ixmin, ixmax,
                        iny, iymin, iymax,
@@ -49,6 +51,7 @@ CalorimeterSD::CalorimeterSD(const G4String iname,
                        iny, iymin, iymax,
                        inz, izmin, izmax);
     
+ */
   ana->BookCaloHisto1D(SensitiveDetectorName + "_dose_1D",
                        inz, izmin, izmax);
   ana->BookCaloHisto1D(SensitiveDetectorName + "_letP_1D",
@@ -58,7 +61,7 @@ CalorimeterSD::CalorimeterSD(const G4String iname,
   ana->BookCaloHisto1D(SensitiveDetectorName + "_letA_1D",
                        inz, izmin, izmax);
 
-  ana->BookCaloTuple(SensitiveDetectorName);
+  // ana->BookCaloTuple(SensitiveDetectorName);
     
   collectionName.insert(SensitiveDetectorName);
 

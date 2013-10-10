@@ -21,6 +21,7 @@
 #include "TNtuple.h"
 #include "TH3D.h"
 #include "TH1D.h"
+#include "TH2D.h"
 #include "float.h"
 #include "math.h"
 
@@ -124,14 +125,19 @@ void AnalysisManager::BookTrackTuple(const G4String isdname)
 }
 
 //==========================================================================
-void AnalysisManager::BookCaloTuple(const G4String isdname)
+void AnalysisManager::BookTrackHisto2D(const G4String isdname,
+                                       const G4int inx,
+                                       const G4double ixmin,
+                                       const G4double ixmax,
+                                       const G4int iny,
+                                       const G4double iymin,
+                                       const G4double iymax)
 {
-    // find tuple on existing list
     G4bool found_sdname = false;
-    const G4int tuple_size = tuplenames.size();
-    for (G4int i = 0; i < tuple_size; ++i)
+    const G4int histo_size = histonames2d.size();
+    for (G4int i = 0; i < histo_size; ++i)
     {
-        if (isdname == tuplenames[i])
+        if (isdname == histonames2d[i])
         {
             found_sdname = true;
             break;
@@ -144,13 +150,17 @@ void AnalysisManager::BookCaloTuple(const G4String isdname)
     else
     {
         const char* n_chr = isdname.c_str();
-        // MAXFieldNumber of TNtuple is 15
-        TNtuple* tpl = new TNtuple(n_chr, n_chr, "pid:Z:A:x:y:z:w:e");
-        tuplenames.push_back(isdname);
-        tuples.push_back(tpl);
+        TH2D* h2 = new TH2D(n_chr, n_chr,
+                            inx, ixmin, ixmax,
+                            iny, iymin, iymax);
+        h2->SetXTitle(" X Axis [ bin # ]");
+        h2->SetYTitle(" Y Axis [ bin # ]");
+        histonames2d.push_back(isdname);
+        histos2d.push_back(h2);
     }
-}
 
+    
+}
 //==========================================================================
 void AnalysisManager::BookCaloHisto3D(const G4String isdname,
                                       const G4int    inx,
@@ -191,6 +201,7 @@ void AnalysisManager::BookCaloHisto3D(const G4String isdname,
 
 }
 
+//==========================================================================
 void AnalysisManager::BookCaloHisto1D(const G4String isdname,
                                       const G4int inz,
                                       const G4double izmin, const G4double izmax)
@@ -198,6 +209,11 @@ void AnalysisManager::BookCaloHisto1D(const G4String isdname,
     // find tuple on existing list
     G4bool found_sdname = false;
     const G4int histo_size = histonames1d.size();
+    
+    width = izmax - izmin;
+    
+    G4cout<<" Width :"<<width<<G4endl;
+    
     for (G4int i = 0; i < histo_size; ++i)
     {
         if (isdname == histonames1d[i])
@@ -212,8 +228,12 @@ void AnalysisManager::BookCaloHisto1D(const G4String isdname,
     }
     else
     {
+        G4cout<<" Min : "<<izmin<<"   Max : "<<izmax<< " :" << izmax - izmin<<G4endl;
+        
         const char* n_chr = isdname.c_str();
-        TH1D* h1 = new TH1D(n_chr, n_chr,inz, izmin, izmax);
+        TH1D* h1 = new TH1D(n_chr, n_chr,inz,0,width);
+        h1->SetXTitle(" Depth in Water [ mm ]");
+        h1->SetYTitle(" Energy Deposition [ a.u. ]");
         histonames1d.push_back(isdname);
         histos1d.push_back(h1);
     }
@@ -267,41 +287,6 @@ void AnalysisManager::FillTrackTuple(const G4String isdname,
                     (*it)->GetKineticEnergy());
   }
 }
-
-//==========================================================================
-void AnalysisManager::FillCaloTuple(const G4String isdname,
-                                    const CaloHitsCollection* hc)
-{
-    G4bool found_sdname = false;
-    const G4int tuple_size = tuplenames.size();
-    G4int i = 0;
-    for (; i < tuple_size; ++i)
-    {
-        if (isdname == tuplenames[i])
-        {
-            found_sdname = true;
-            break;
-        }
-    }
-    if (!found_sdname) return;
-    // tuples[i] is the one we've found
-    
-    std::vector<CaloHit*>* hits = hc->GetVector();
-    for (std::vector<CaloHit*>::iterator it = hits->begin();
-         it != hits->end();
-         ++it)
-    {
-        tuples[i]->Fill((*it)->GetParticleId(),
-                        (*it)->GetAtomicNumber(),
-                        (*it)->GetAtomicMass(),
-                        (*it)->GetPosition().x(),
-                        (*it)->GetPosition().y(),
-                        (*it)->GetPosition().z(),
-                        (*it)->GetEdeposit(),
-                        (*it)->GetDedx());
-    }
-}
-
 
 //==========================================================================
 void AnalysisManager::FillCaloHisto3D(const G4String isdname,
@@ -385,14 +370,17 @@ void AnalysisManager::FillCaloHisto3D(const G4String isdname,
   }
 }
 
+//==========================================================================
 void AnalysisManager::FillCaloHisto1D(const G4String isdname,
                                       const CaloHitsCollection* hc)
 {
     G4bool found_sdname = false;
     const G4int histo_size = histonames1d.size();
     G4String thishisto = isdname + "_dose_1D";
+    
     G4int i_dose = 0;
-    for (; i_dose < histo_size; ++i_dose)
+    
+    for (; i_dose <= histo_size; ++i_dose)
     {
         if (thishisto == histonames1d[i_dose])
         {
@@ -448,14 +436,12 @@ void AnalysisManager::FillCaloHisto1D(const G4String isdname,
     {
         CaloHit* hit = *it;
         // Collect hit only inside diameter of virtural cylinder
-        
         G4double radi = sqrt(pow(hit->GetPosition().x(),2)+
                              pow(hit->GetPosition().y(),2)); // Unit : mm
-
-        if (radi <= 150) //200 )
+        
+        if (radi <= 150) // 200 )
         {
-            histos1d[i_dose]->Fill(hit->GetPosition().z(),
-                                   hit->GetEdeposit());
+            histos1d[i_dose]->Fill((hit->GetPosition().z()+width/2),hit->GetEdeposit());
             
             if ( hit->IsPrimary() == 0 )
             {
@@ -465,11 +451,11 @@ void AnalysisManager::FillCaloHisto1D(const G4String isdname,
                 }
                 else
                 {
-                    histos1d[i_letP]->Fill(hit->GetPosition().z(),
+                    histos1d[i_letP]->Fill(hit->GetPosition().z()+width/2,
                                            hit->GetDedx());
-                    histos1d[i_letH]->Fill(hit->GetPosition().z(),
+                    histos1d[i_letH]->Fill(hit->GetPosition().z()+width/2,
                                            hit->GetDedx());
-                    histos1d[i_letA]->Fill(hit->GetPosition().z(),
+                    histos1d[i_letA]->Fill(hit->GetPosition().z()+width/2,
                                            hit->GetDedx());
                 }
             }
@@ -479,4 +465,31 @@ void AnalysisManager::FillCaloHisto1D(const G4String isdname,
         else
         {}
     }
+}
+//==========================================================================
+void AnalysisManager::FillTrackHisto2D(const G4String isdname, const TrackHitsCollection *hc)
+{
+    G4bool found_sdname = false;
+    const G4int histo_size = histonames2d.size();
+    G4int i = 0;
+    for (; i < histo_size; ++i)
+    {
+        if (isdname == histonames2d[i])
+        {
+            found_sdname = true;
+            break;
+        }
+    }
+    if (!found_sdname) return;
+    // tuples[i] is the one we've found
+    
+    std::vector<TrackHit*>* hits = hc->GetVector();
+    for (std::vector<TrackHit*>::iterator it = hits->begin();
+         it != hits->end();  
+         ++it)
+    {
+        TrackHit* hit = *it;
+        histos2d[i]->Fill(hit->GetPosition().x(),hit->GetPosition().y());
+    }
+
 }

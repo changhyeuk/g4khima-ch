@@ -23,7 +23,17 @@ TrackerSD::TrackerSD(const G4String iname,
   AnalysisManager* ana = AnalysisManager::GetInstance();
   // 1. 'fullPathName' was used instead of SensitiveDetectorName.
   // 2. Only one HC on one SD was used, so HCname and SDname are the same.
-  ana->BookTrackTuple(SensitiveDetectorName);
+  
+  //ana->BookTrackTuple(SensitiveDetectorName);
+    
+    ana->BookTrackHisto2D(SensitiveDetectorName,
+                          100,  // const G4int inx,
+                          -50, // const G4double ixmin,
+                          50,  // const G4double ixmax,
+                          100,  // const G4int iny,
+                          -50, // const G4double iymin,
+                          50); // const G4double iymax);
+    
   collectionName.insert(SensitiveDetectorName);
 
   // below must be bottom line of this constructor
