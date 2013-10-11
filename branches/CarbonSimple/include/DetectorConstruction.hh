@@ -18,9 +18,19 @@ public:
   ~DetectorConstruction();
   
   G4VPhysicalVolume* Construct();
+    
+public:
+    void SetMonitorONOFF(std::string iMonitorONOFF);
+    void SetRGFONOFF(std::string iRGFONOFF);
+    void SetRSFONOFF(std::string iRSFONOFF);
+    void SetMLCONOFF(std::string iMLCONOFF);
 
 private:
-  DetectorMessenger* dm;
+  DetectorMessenger* detMsn;
+    G4String MonitorONOFF;
+    G4String RGFONOFF;
+    G4String RSFONOFF;
+    G4String MLCONOFF;
 };
 
 #endif /* DetectorConstruction_hh_ */
