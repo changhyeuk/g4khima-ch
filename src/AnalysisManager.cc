@@ -212,7 +212,7 @@ void AnalysisManager::BookCaloHisto1D(const G4String isdname,
     
     width = izmax - izmin;
     
-    G4cout<<" Width :"<<width<<G4endl;
+    //G4cout<<" Width :"<<width<<G4endl;
     
     for (G4int i = 0; i < histo_size; ++i)
     {
@@ -228,8 +228,6 @@ void AnalysisManager::BookCaloHisto1D(const G4String isdname,
     }
     else
     {
-        G4cout<<" Min : "<<izmin<<"   Max : "<<izmax<< " :" << izmax - izmin<<G4endl;
-        
         const char* n_chr = isdname.c_str();
         TH1D* h1 = new TH1D(n_chr, n_chr,inz,0,width);
         h1->SetXTitle(" Depth in Water [ mm ]");

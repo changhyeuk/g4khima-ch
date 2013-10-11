@@ -4,6 +4,7 @@
 //*****************************************************************************
 
 #include "DetectorConstruction.hh"
+#include "DetectorMessenger.hh"
 #include "AnalysisManager.hh"
 #include "GaramGlobal.hh"
 #include "GridBField.hh"
@@ -39,12 +40,15 @@
 
 //==========================================================================
 DetectorConstruction::DetectorConstruction()
+:detMsn(0)
 {
+    detMsn = new DetectorMessenger(this);
 }
 
 //==========================================================================
 DetectorConstruction::~DetectorConstruction()
 {
+  delete detMsn;
   FieldTable::Dispose();
 }
 
@@ -74,16 +78,20 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                        "G4_Fe");
    */
 
-  Slab BKAPTON(0.3*m, 0.3*m,0.2*mm,"G4_KAPTON");
-  Block         BAIR(0.01 * m, 0.1 * m,"G4_AIR");
+  Slab      BKAPTON(0.3*m, 0.3*m,0.2*mm,"G4_KAPTON");
+  Block     BAIR(0.01 * m, 0.1 * m,"G4_AIR");
   
-  Slab BPET(0.3*m,0.3*m,25.0*um,"G4_POLYETHYLENE");
-  Slab BCU(0.3*m,0.3*m,50.0*um,"G4_Cu");
-  Slab BPG(0.3*m,0.3*m,200.0*um,"G4_Pyrex_Glass");
-  Slab BGAIR(0.3*m,0.3*m,5.0*mm,"G4_AIR");
+  Slab      BPET(0.3*m,0.3*m,25.0*um,"G4_POLYETHYLENE");
+  Slab      BCU(0.3*m,0.3*m,50.0*um,"G4_Cu");
+  Slab      BPG(0.3*m,0.3*m,200.0*um,"G4_Pyrex_Glass");
+  Slab      BGAIR(0.3*m,0.3*m,5.0*mm,"G4_AIR");
+  Block     BACKUPMON(46.15*mm,46.15*mm,"G4_AIR");
+  Block     BACKUPRGF(42.0*mm,42.0*mm,"G4_AIR"); // The Value Should be connected with the highest value with RGF
+  Block     BACKUPRSF(30.0*cm,30.0*cm,"G4_AIR");
+  Block     BACKUPMLC(15.0*cm,15.0*cm,"G4_AIR");
   
-  RangeShifter RSF(0.3*m, 0.3*m, 0.3*m, 7,"G4_AIR","G4_PLEXIGLASS");
-  WaterPhantom  WP(0.3 * m, 0.3 * m, 0.4 * m, "G4_WATER");
+  RangeShifter   RSF(0.3*m, 0.3*m, 0.3*m, 7,"G4_AIR","G4_PLEXIGLASS");
+  WaterPhantom   WP(0.3 * m, 0.3 * m, 0.4 * m, "G4_WATER");
   VirtualMonitor mon(20.0 *cm,20.0 *cm);
     
   RidgeFilter* RF = new RidgeFilter(30.*cm, 30.*cm, "G4_Al", "G4_AIR");
@@ -182,66 +190,142 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     MLC->SetLeaf(-40,   0.*cm, 0.*cm);
     
   // ************************ Beam Line *************************
-  
+    
   bcm.Add(D.New(0.1 * m));
   bcm.Add(BKAPTON.New());
     bcm.Add(BAIR.New(0.1 * m));
-
-  // Monitor ======================================================
-  // Monitor Cover Front
-    bcm.Add(BPET.New());
-    bcm.Add(BGAIR.New());
-    // Dose Monitor 1
-    bcm.Add(BPET.New());
-    bcm.Add(BGAIR.New());
-    bcm.Add(BCU.New());
-    bcm.Add(BPG.New());
-        // Gap
-        bcm.Add(BGAIR.New());
-    // Dose Monitor 2
-    bcm.Add(BPET.New());
-    bcm.Add(BGAIR.New());
-    bcm.Add(BCU.New());
-    bcm.Add(BPG.New());
-        // Gap
-        bcm.Add(BGAIR.New());
-    // Position Monitor 1
-    bcm.Add(BPET.New());
-    bcm.Add(BGAIR.New());
-    bcm.Add(BCU.New());
-    bcm.Add(BPG.New());
-        // Gap
-        bcm.Add(BGAIR.New());
-    // Position Monitor 2
-    bcm.Add(BPET.New());
-    bcm.Add(BGAIR.New());
-    bcm.Add(BCU.New());
-    bcm.Add(BPG.New());
     
-    //Monitor Cover Back
+    if ( MonitorONOFF == "on" )
+    {
+        G4cout<<" ==========================================="<<G4endl;
+        G4cout<<" Beam Monitor was created in the Beam Line. "<<G4endl;
+        G4cout<<" ==========================================="<<G4endl;
+
+        // Monitor ======================================================
+        // Monitor Cover Front
+        bcm.Add(BPET.New());
+        bcm.Add(BGAIR.New());
+        // Dose Monitor 1
+        bcm.Add(BPET.New());
+        bcm.Add(BGAIR.New());
+        bcm.Add(BCU.New());
+        bcm.Add(BPG.New());
+        // Gap
+        bcm.Add(BGAIR.New());
+        // Dose Monitor 2
+        bcm.Add(BPET.New());
+        bcm.Add(BGAIR.New());
+        bcm.Add(BCU.New());
+        bcm.Add(BPG.New());
+        // Gap
+        bcm.Add(BGAIR.New());
+        // Position Monitor 1
+        bcm.Add(BPET.New());
+        bcm.Add(BGAIR.New());
+        bcm.Add(BCU.New());
+        bcm.Add(BPG.New());
+        // Gap
+        bcm.Add(BGAIR.New());
+        // Position Monitor 2
+        bcm.Add(BPET.New());
+        bcm.Add(BGAIR.New());
+        bcm.Add(BCU.New());
+        bcm.Add(BPG.New());
+    
+        //Monitor Cover Back
         bcm.Add(BGAIR.New());
         bcm.Add(BPET.New());
+    }
+    else if ( MonitorONOFF != "on")
+    {
+        G4cout<<" ==========================================="<<G4endl;
+        G4cout<<" Beam Monitor was disappeard in the Beam Line. "<<G4endl;
+        G4cout<<" ==========================================="<<G4endl;
+        bcm.Add(BACKUPMON.New());
+    }
     
     bcm.Add(BAIR.New(0.1 * m));
   
-  // RGF ======================================================
-  //bcm.Add(RF);
-    //bcm.Add(BAIR.New(0.1 * m));
-
-  // RSF ======================================================
-  bcm.Add(RSF.New());
+    // RGF ======================================================
+    if ( RGFONOFF == "on" )
+    {
+        G4cout<<" ==========================================="<<G4endl;
+        G4cout<<" Ridge Filter was created in the Beam Line. "<<G4endl;
+        G4cout<<" ==========================================="<<G4endl;
+        bcm.Add(RF);
+    }
+    else if( RGFONOFF != "on" )
+    {
+        G4cout<<" ==========================================="<<G4endl;
+        G4cout<<" Ridge Filter was disappeard in the Beam Line. "<<G4endl;
+        G4cout<<" ==========================================="<<G4endl;
+        bcm.Add(BACKUPRGF.New());
+    }
+    bcm.Add(BAIR.New(0.1 * m));
+    
+    // RSF ======================================================
+    if (RSFONOFF=="on")
+    {
+        G4cout<<" ==========================================="<<G4endl;
+        G4cout<<" Range Shifter was created in the Beam Line. "<<G4endl;
+        G4cout<<" ==========================================="<<G4endl;
+        bcm.Add(RSF.New());
+    }
+    else if(RSFONOFF!="on")
+    {
+        G4cout<<" ==========================================="<<G4endl;
+        G4cout<<" Range Shifter was disappeard in the Beam Line. "<<G4endl;
+        G4cout<<" ==========================================="<<G4endl;
+        bcm.Add(BACKUPRSF.New());
+    }
     bcm.Add(BAIR.New(0.1 * m));
     
   // MLC ======================================================
-  bcm.Add(MLC);
+    if ( MLCONOFF == "on")
+    {
+        G4cout<<" ==========================================="<<G4endl;
+        G4cout<<" MLC was created in the Beam Line. "<<G4endl;
+        G4cout<<" ==========================================="<<G4endl;
+        bcm.Add(MLC);
+    }
+    else if ( MLCONOFF != "on")
+    {
+        G4cout<<" ==========================================="<<G4endl;
+        G4cout<<" MLC was disappeard in the Beam Line. "<<G4endl;
+        G4cout<<" ==========================================="<<G4endl;
+        bcm.Add(BACKUPMLC.New());
+    }
+    // Virtural Monitor ========================================
     bcm.Add(BAIR.New(0.1 * m));
-  bcm.Add(D.New(0.001 * m));
-  bcm.Add(mon.New());
-      bcm.Add(D.New(0.001 * m));
-  //bcm.Add(WP.New());
+    bcm.Add(D.New(0.001 * m));
+    bcm.Add(mon.New());
+    bcm.Add(D.New(0.001 * m));
+    
+    // Water Phantom ========================================
+    bcm.Add(WP.New());
     
   G4VPhysicalVolume* pv = bcm.GenerateVolume();
 
   return pv;
 
+}
+
+void DetectorConstruction::SetMonitorONOFF(std::string iMonitorONOFF)
+{
+    MonitorONOFF = iMonitorONOFF;
+}
+
+void DetectorConstruction::SetRGFONOFF(std::string iRGFONOFF)
+{
+    RGFONOFF = iRGFONOFF;
+}
+
+void DetectorConstruction::SetRSFONOFF(std::string iRSFONOFF)
+{
+    RSFONOFF = iRSFONOFF;
+}
+
+void DetectorConstruction::SetMLCONOFF(std::string iMLCONOFF)
+{
+    MLCONOFF = iMLCONOFF;
 }
