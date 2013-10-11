@@ -44,6 +44,7 @@ private:
   TFile*                  aresult;
   TNtuple*                bullets;
     
+    
   G4double width;
     
     

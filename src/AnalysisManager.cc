@@ -154,7 +154,9 @@ void AnalysisManager::BookTrackHisto2D(const G4String isdname,
                             inx, ixmin, ixmax,
                             iny, iymin, iymax);
         h2->SetXTitle(" X Axis [ bin # ]");
+        h2->GetXaxis()->CenterTitle(1);
         h2->SetYTitle(" Y Axis [ bin # ]");
+        h2->GetYaxis()->CenterTitle(1);
         histonames2d.push_back(isdname);
         histos2d.push_back(h2);
     }
@@ -231,7 +233,9 @@ void AnalysisManager::BookCaloHisto1D(const G4String isdname,
         const char* n_chr = isdname.c_str();
         TH1D* h1 = new TH1D(n_chr, n_chr,inz,0,width);
         h1->SetXTitle(" Depth in Water [ mm ]");
+        h1->GetXaxis()->CenterTitle(1);
         h1->SetYTitle(" Energy Deposition [ a.u. ]");
+        h1->GetYaxis()->CenterTitle(1);
         histonames1d.push_back(isdname);
         histos1d.push_back(h1);
     }
