@@ -129,7 +129,7 @@ void RidgeFilter::Generate(const G4RotationMatrix& R0,
 {
   if (zs.size() < 4) return; // Raise ExceptionErr
   
-  std::cout << "zsize = " << zsize << std::endl;
+  //std::cout << "zsize = " << zsize << std::endl;
   
   const G4double ridge_x_size         = xs.back() - xs.front();
   const G4double hy                   = 0.5 * ysize;

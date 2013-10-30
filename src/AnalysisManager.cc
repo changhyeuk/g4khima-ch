@@ -21,6 +21,7 @@
 #include "TNtuple.h"
 #include "TH3D.h"
 #include "TH1D.h"
+#include "TH2D.h"
 #include "float.h"
 #include "math.h"
 
@@ -124,6 +125,45 @@ void AnalysisManager::BookTrackTuple(const G4String isdname)
 }
 
 //==========================================================================
+void AnalysisManager::BookTrackHisto2D(const G4String isdname,
+                                       const G4int inx,
+                                       const G4double ixmin,
+                                       const G4double ixmax,
+                                       const G4int iny,
+                                       const G4double iymin,
+                                       const G4double iymax)
+{
+    G4bool found_sdname = false;
+    const G4int histo_size = histonames2d.size();
+    for (G4int i = 0; i < histo_size; ++i)
+    {
+        if (isdname == histonames2d[i])
+        {
+            found_sdname = true;
+            break;
+        }
+    }
+    if (found_sdname)
+    {
+        //std::cout << "[AM]" << isdname << " already exist!!" << std::endl;
+    }
+    else
+    {
+        const char* n_chr = isdname.c_str();
+        TH2D* h2 = new TH2D(n_chr, n_chr,
+                            inx, ixmin, ixmax,
+                            iny, iymin, iymax);
+        h2->SetXTitle(" X Axis [ bin # ]");
+        h2->GetXaxis()->CenterTitle(1);
+        h2->SetYTitle(" Y Axis [ bin # ]");
+        h2->GetYaxis()->CenterTitle(1);
+        histonames2d.push_back(isdname);
+        histos2d.push_back(h2);
+    }
+
+    
+}
+//==========================================================================
 void AnalysisManager::BookCaloHisto3D(const G4String isdname,
                                       const G4int    inx,
                                       const G4double ixmin,
@@ -163,6 +203,7 @@ void AnalysisManager::BookCaloHisto3D(const G4String isdname,
 
 }
 
+//==========================================================================
 void AnalysisManager::BookCaloHisto1D(const G4String isdname,
                                       const G4int inz,
                                       const G4double izmin, const G4double izmax)
@@ -170,6 +211,11 @@ void AnalysisManager::BookCaloHisto1D(const G4String isdname,
     // find tuple on existing list
     G4bool found_sdname = false;
     const G4int histo_size = histonames1d.size();
+    
+    width = izmax - izmin;
+    
+    //G4cout<<" Width :"<<width<<G4endl;
+    
     for (G4int i = 0; i < histo_size; ++i)
     {
         if (isdname == histonames1d[i])
@@ -185,7 +231,11 @@ void AnalysisManager::BookCaloHisto1D(const G4String isdname,
     else
     {
         const char* n_chr = isdname.c_str();
-        TH1D* h1 = new TH1D(n_chr, n_chr,inz, izmin, izmax);
+        TH1D* h1 = new TH1D(n_chr, n_chr,inz,0,width);
+        h1->SetXTitle(" Depth in Water [ mm ]");
+        h1->GetXaxis()->CenterTitle(1);
+        h1->SetYTitle(" Energy Deposition [ a.u. ]");
+        h1->GetYaxis()->CenterTitle(1);
         histonames1d.push_back(isdname);
         histos1d.push_back(h1);
     }
@@ -322,14 +372,17 @@ void AnalysisManager::FillCaloHisto3D(const G4String isdname,
   }
 }
 
+//==========================================================================
 void AnalysisManager::FillCaloHisto1D(const G4String isdname,
                                       const CaloHitsCollection* hc)
 {
     G4bool found_sdname = false;
     const G4int histo_size = histonames1d.size();
     G4String thishisto = isdname + "_dose_1D";
+    
     G4int i_dose = 0;
-    for (; i_dose < histo_size; ++i_dose)
+    
+    for (; i_dose <= histo_size; ++i_dose)
     {
         if (thishisto == histonames1d[i_dose])
         {
@@ -385,14 +438,12 @@ void AnalysisManager::FillCaloHisto1D(const G4String isdname,
     {
         CaloHit* hit = *it;
         // Collect hit only inside diameter of virtural cylinder
-        
         G4double radi = sqrt(pow(hit->GetPosition().x(),2)+
                              pow(hit->GetPosition().y(),2)); // Unit : mm
-
-        if (radi <= 200 )
+        
+        if (radi <= 150) // 200 )
         {
-            histos1d[i_dose]->Fill(hit->GetPosition().z(),
-                                   hit->GetEdeposit());
+            histos1d[i_dose]->Fill((hit->GetPosition().z()+width/2),hit->GetEdeposit());
             
             if ( hit->IsPrimary() == 0 )
             {
@@ -402,11 +453,11 @@ void AnalysisManager::FillCaloHisto1D(const G4String isdname,
                 }
                 else
                 {
-                    histos1d[i_letP]->Fill(hit->GetPosition().z(),
+                    histos1d[i_letP]->Fill(hit->GetPosition().z()+width/2,
                                            hit->GetDedx());
-                    histos1d[i_letH]->Fill(hit->GetPosition().z(),
+                    histos1d[i_letH]->Fill(hit->GetPosition().z()+width/2,
                                            hit->GetDedx());
-                    histos1d[i_letA]->Fill(hit->GetPosition().z(),
+                    histos1d[i_letA]->Fill(hit->GetPosition().z()+width/2,
                                            hit->GetDedx());
                 }
             }
@@ -416,4 +467,31 @@ void AnalysisManager::FillCaloHisto1D(const G4String isdname,
         else
         {}
     }
+}
+//==========================================================================
+void AnalysisManager::FillTrackHisto2D(const G4String isdname, const TrackHitsCollection *hc)
+{
+    G4bool found_sdname = false;
+    const G4int histo_size = histonames2d.size();
+    G4int i = 0;
+    for (; i < histo_size; ++i)
+    {
+        if (isdname == histonames2d[i])
+        {
+            found_sdname = true;
+            break;
+        }
+    }
+    if (!found_sdname) return;
+    // tuples[i] is the one we've found
+    
+    std::vector<TrackHit*>* hits = hc->GetVector();
+    for (std::vector<TrackHit*>::iterator it = hits->begin();
+         it != hits->end();  
+         ++it)
+    {
+        TrackHit* hit = *it;
+        histos2d[i]->Fill(hit->GetPosition().x(),hit->GetPosition().y());
+    }
+
 }
