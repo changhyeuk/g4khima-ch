@@ -59,7 +59,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   
   BeamLineComponentManager bcm(430.0 * MeV, 0.5);
   bcm.SetBGMaterial("G4_Galactic");
-  //const G4double field_exp_scale = 1.2; // for real
+  const G4double field_exp_scale = 1.2; // for real
   //G4RotationMatrix Ri = G4RotationMatrix::IDENTITY;
   //Ri.rotateY(45.0 * deg);
   //Ri.rotateX(19.0 * deg);
@@ -67,7 +67,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 
   DriftSpace    D(0.4 * m);
-  /*
+  
   ScanDipoleMagnet SMx(6.0 * cm,        // tube_full_height
                        15.0 * cm,       // tube_full_width
                        50.0 * cm,       // body_full_height
@@ -76,7 +76,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                        0.3 * tesla,     // field_strength
                        field_exp_scale, // field_exp_scale
                        "G4_Fe");
-   */
+
 
   Slab      BKAPTON(0.3*m, 0.3*m,0.2*mm,"G4_KAPTON");
   Block     BAIR(0.01 * m, 0.1 * m,"G4_AIR");
@@ -95,105 +95,146 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   VirtualMonitor mon(20.0 *cm,20.0 *cm);
     
   RidgeFilter* RF = new RidgeFilter(30.*cm, 30.*cm, "G4_Al", "G4_AIR");
-    RF->Add2DCrxPoint(1.*mm,   2.*mm);
-    RF->Add2DCrxPoint(2.*mm,   4.*mm);
-    RF->Add2DCrxPoint(3.*mm,   8.*mm);
-    RF->Add2DCrxPoint(4.*mm,   16.*mm);
-    RF->Add2DCrxPoint(5.*mm,   32.*mm);
-    RF->Add2DCrxPoint(6.*mm,   42.*mm);
-    RF->Add2DCrxPoint(7.*mm,   42.*mm);
-    RF->AddSpace(3.0 * mm);
+    RF->Add2DCrxPoint(0.2*mm,   22.5*mm);
+    RF->Add2DCrxPoint(0.27*mm,   22.0*mm);
+    RF->Add2DCrxPoint(0.36*mm,   21.5*mm);
+    RF->Add2DCrxPoint(0.36*mm,   21.0*mm);
+    RF->Add2DCrxPoint(0.43*mm,   20.5*mm);
+    RF->Add2DCrxPoint(0.44*mm,   20.0*mm);
+    RF->Add2DCrxPoint(0.50*mm,   19.5*mm);
+    RF->Add2DCrxPoint(0.53*mm,   19.0*mm);
+    RF->Add2DCrxPoint(0.59*mm,   18.5*mm);
+    RF->Add2DCrxPoint(0.62*mm,   18.0*mm);
+    RF->Add2DCrxPoint(0.67*mm,   17.5*mm);
+    RF->Add2DCrxPoint(0.72*mm,   17.0*mm);
+    RF->Add2DCrxPoint(0.76*mm,   16.5*mm);
+    RF->Add2DCrxPoint(0.81*mm,   16.0*mm);
+    RF->Add2DCrxPoint(0.86*mm,   15.5*mm);
+    RF->Add2DCrxPoint(0.91*mm,   15.0*mm);
+    RF->Add2DCrxPoint(0.96*mm,   14.5*mm);
+    RF->Add2DCrxPoint(1.0*mm,   14.0*mm);
+    RF->Add2DCrxPoint(1.08*mm,   13.5*mm);
+    RF->Add2DCrxPoint(1.10*mm,   13.0*mm);
+    RF->Add2DCrxPoint(1.19*mm,   12.5*mm);
+    RF->Add2DCrxPoint(1.20*mm,   12.0*mm);
+    RF->Add2DCrxPoint(1.30*mm,   11.5*mm);
+    RF->Add2DCrxPoint(1.32*mm,   11.0*mm);
+    RF->Add2DCrxPoint(1.41*mm,   10.5*mm);
+    RF->Add2DCrxPoint(1.45*mm,   10.0*mm);
+    RF->Add2DCrxPoint(1.55*mm,   9.5*mm);
+    RF->Add2DCrxPoint(1.60*mm,   9.0*mm);
+    RF->Add2DCrxPoint(1.68*mm,   8.5*mm);
+    RF->Add2DCrxPoint(1.77*mm,   8.0*mm);
+    RF->Add2DCrxPoint(1.83*mm,   7.5*mm);
+    RF->Add2DCrxPoint(1.95*mm,   7.0*mm);
+    RF->Add2DCrxPoint(2.01*mm,   6.5*mm);
+    RF->Add2DCrxPoint(2.15*mm,   6.0*mm);
+    RF->Add2DCrxPoint(2.21*mm,   5.5*mm);
+    RF->Add2DCrxPoint(2.38*mm,   5.0*mm);
+    RF->Add2DCrxPoint(2.46*mm,   4.5*mm);
+    RF->Add2DCrxPoint(2.65*mm,   4.0*mm);
+    RF->Add2DCrxPoint(2.76*mm,   3.5*mm);
+    RF->Add2DCrxPoint(2.00*mm,   3.0*mm);
+    RF->Add2DCrxPoint(2.11*mm,   2.5*mm);
+    RF->Add2DCrxPoint(3.49*mm,   2.0*mm);
+    RF->Add2DCrxPoint(3.52*mm,   1.5*mm);
+    RF->Add2DCrxPoint(4.26*mm,   1.0*mm);
+    RF->Add2DCrxPoint(5.00*mm,   0.5*mm);
+    RF->AddSpace(0.2 * mm);
     
   MultiLeafCollimator* MLC
     = new MultiLeafCollimator(25.*cm, 25.*cm, 15.*cm, "G4_Fe", "G4_AIR");
     MLC->DefineLeaf(40, 0.25*cm);
     MLC->SetLeaf(40,   0.*cm, 0.*cm);
-    MLC->SetLeaf(39,   -0.5*cm, 0.5*cm);
-    MLC->SetLeaf(38,   -1.*cm, 1.*cm);
-    MLC->SetLeaf(37,   -1.5*cm, 1.5*cm);
-    MLC->SetLeaf(36,   -2.*cm, 2.*cm);
-    MLC->SetLeaf(35,   -2.5*cm, 2.5*cm);
-    MLC->SetLeaf(34,   -3.*cm, 3.*cm);
-    MLC->SetLeaf(33,   -3.5*cm, 3.5*cm);
-    MLC->SetLeaf(32,   -4.*cm, 4.*cm);
-    MLC->SetLeaf(31,   -4.5*cm, 4.5*cm);
-    MLC->SetLeaf(30,   -5.*cm, 5.*cm);
-    MLC->SetLeaf(29,   -5.5*cm, 5.5*cm);
-    MLC->SetLeaf(28,   -6.*cm, 6.*cm);
-    MLC->SetLeaf(27,   -6.5*cm, 6.5*cm);
-    MLC->SetLeaf(26,   -7.*cm, 7.*cm);
-    MLC->SetLeaf(25,   -7.5*cm, 7.5*cm);
-    MLC->SetLeaf(24,   -8.*cm, 8.*cm);
-    MLC->SetLeaf(23,   -8.5*cm, 8.5*cm);
-    MLC->SetLeaf(22,   -9.*cm, 9.*cm);
-    MLC->SetLeaf(21,   -9.5*cm, 9.5*cm);
-    MLC->SetLeaf(20,   -10.*cm, 10.*cm);
-    MLC->SetLeaf(19,   -10.5*cm, 10.5*cm);
-    MLC->SetLeaf(18,   -11.*cm, 11.*cm);
-    MLC->SetLeaf(17,   -11.5*cm, 11.5*cm);
-    MLC->SetLeaf(16,   -12.*cm, 12.*cm);
-    MLC->SetLeaf(15,   -12.*cm, 12.*cm);//-12.5*cm, 12.5*cm);
-    MLC->SetLeaf(14,   -12.*cm, 12.*cm);//-13.*cm, 13.*cm);
-    MLC->SetLeaf(13,   -12.*cm, 12.*cm);//-13.5*cm, 13.5*cm);
-    MLC->SetLeaf(12,   -12.*cm, 12.*cm);//-14.*cm, 14.*cm);
-    MLC->SetLeaf(11,   -12.*cm, 12.*cm);//-14.5*cm, 14.5*cm);
-    MLC->SetLeaf(10,   -12.*cm, 12.*cm);//-15.*cm, 15.*cm);
-    MLC->SetLeaf( 9,   -12.*cm, 12.*cm);//-15.5*cm, 15.5*cm);
-    MLC->SetLeaf( 8,   -12.*cm, 12.*cm);//-16.*cm, 16.*cm);
-    MLC->SetLeaf( 7,   -12.*cm, 12.*cm);//-16.5*cm, 16.5*cm);
-    MLC->SetLeaf( 6,   -12.*cm, 12.*cm);//-17.*cm, 17.*cm);
-    MLC->SetLeaf( 5,   -12.*cm, 12.*cm);//-17.5*cm, 17.5*cm);
-    MLC->SetLeaf( 4,   -12.*cm, 12.*cm);//-18.*cm, 18.*cm);
-    MLC->SetLeaf( 3,   -12.*cm, 12.*cm);//-18.5*cm, 18.5*cm);
-    MLC->SetLeaf( 2,   -12.*cm, 12.*cm);//-19.*cm, 19.*cm);
-    MLC->SetLeaf( 1,   -12.*cm, 12.*cm);//-19.5*cm, 19.5*cm);
+    MLC->SetLeaf(39,   0.*cm, 0.*cm);
+    MLC->SetLeaf(38,   0.*cm, 0.*cm);
+    MLC->SetLeaf(37,   0.*cm, 0.*cm);
+    MLC->SetLeaf(36,   0.*cm, 0.*cm);
+    MLC->SetLeaf(35,   0.*cm, 0.*cm);
+    MLC->SetLeaf(34,   0.*cm, 0.*cm);
+    MLC->SetLeaf(33,   0.*cm, 0.*cm);
+    MLC->SetLeaf(32,   0.*cm, 0.*cm);
+    MLC->SetLeaf(31,   0.*cm, 0.*cm);
+    MLC->SetLeaf(30,   0.*cm, 0.*cm);
+    MLC->SetLeaf(29,   0.*cm, 0.*cm);
+    MLC->SetLeaf(28,   0.*cm, 0.*cm);
+    MLC->SetLeaf(27,   0.*cm, 0.*cm);
+    MLC->SetLeaf(26,   0.*cm, 0.*cm);
+    MLC->SetLeaf(25,   0.*cm, 0.*cm);
+    MLC->SetLeaf(24,   -1.5*cm, 1.75*cm);
+    MLC->SetLeaf(23,   -2.5*cm, 2.75*cm);
+    MLC->SetLeaf(22,   -3.0*cm, 3.25*cm);
+    MLC->SetLeaf(21,   -3.5*cm, 3.75*cm);
+    MLC->SetLeaf(20,   -4.0*cm, 4.25*cm);
+    MLC->SetLeaf(19,   -4.25*cm, 4.5*cm);
+    MLC->SetLeaf(18,   -4.75*cm, 5.0*cm);
+    MLC->SetLeaf(17,   -5.0*cm, 5.25*cm);
+    MLC->SetLeaf(16,   -5.25*cm, 5.5*cm);
+    MLC->SetLeaf(15,   -5.5*cm, 5.75*cm);//-12.5*cm, 12.5*cm);
+    MLC->SetLeaf(14,   -5.75*cm, 6.0*cm);//-13.*cm, 13.*cm);
+    MLC->SetLeaf(13,   -5.75*cm, 6.0*cm);//-13.5*cm, 13.5*cm);
+    MLC->SetLeaf(12,   -6.0*cm, 6.25*cm);//-14.*cm, 14.*cm);
+    MLC->SetLeaf(11,   -6.25*cm, 6.5*cm);//-14.5*cm, 14.5*cm);
+    MLC->SetLeaf(10,   -6.25*cm, 6.5*cm);//-15.*cm, 15.*cm);
+    MLC->SetLeaf( 9,   -6.5*cm, 6.75*cm);//-15.5*cm, 15.5*cm);
+    MLC->SetLeaf( 8,   -6.5*cm, 6.75*cm);//-16.*cm, 16.*cm);
+    MLC->SetLeaf( 7,   -6.5*cm, 6.75*cm);//-16.5*cm, 16.5*cm);
+    MLC->SetLeaf( 6,   -6.75*cm, 7.0*cm);//-17.*cm, 17.*cm);
+    MLC->SetLeaf( 5,   -6.75*cm, 7.0*cm);//-17.5*cm, 17.5*cm);
+    MLC->SetLeaf( 4,   -6.75*cm, 7.0*cm);//-18.*cm, 18.*cm);
+    MLC->SetLeaf( 3,   -6.75*cm, 7.0*cm);//-18.5*cm, 18.5*cm);
+    MLC->SetLeaf( 2,   -6.75*cm, 7.0*cm);//-19.*cm, 19.*cm);
+    MLC->SetLeaf( 1,   -7.0*cm, 7.25*cm);//-19.5*cm, 19.5*cm);
     
-    MLC->SetLeaf( -1,   -12.*cm, 12.*cm);//-19.5*cm, 19.5*cm);
-    MLC->SetLeaf( -2,   -12.*cm, 12.*cm);//-19.*cm, 19.*cm);
-    MLC->SetLeaf( -3,   -12.*cm, 12.*cm);//-18.5*cm, 18.5*cm);
-    MLC->SetLeaf( -4,   -12.*cm, 12.*cm);//-18.*cm, 18.*cm);
-    MLC->SetLeaf( -5,   -12.*cm, 12.*cm);//-17.5*cm, 17.5*cm);
-    MLC->SetLeaf( -6,   -12.*cm, 12.*cm);//-17.*cm, 17.*cm);
-    MLC->SetLeaf( -7,   -12.*cm, 12.*cm);//-16.5*cm, 16.5*cm);
-    MLC->SetLeaf( -8,   -12.*cm, 12.*cm);//-16.*cm, 16.*cm);
-    MLC->SetLeaf( -9,   -12.*cm, 12.*cm);//-15.5*cm, 15.5*cm);
-    MLC->SetLeaf(-10,   -12.*cm, 12.*cm);//-15.*cm, 15.*cm);
-    MLC->SetLeaf(-11,   -12.*cm, 12.*cm);//-14.5*cm, 14.5*cm);
-    MLC->SetLeaf(-12,   -12.*cm, 12.*cm);//-14.*cm, 14.*cm);
-    MLC->SetLeaf(-13,   -12.*cm, 12.*cm);//-13.5*cm, 13.5*cm);
-    MLC->SetLeaf(-14,   -12.*cm, 12.*cm);//-13.*cm, 13.*cm);
-    MLC->SetLeaf(-15,   -12.*cm, 12.*cm);//-12.5*cm, 12.5*cm);
-    MLC->SetLeaf(-16,   -12.*cm, 12.*cm);//-12.*cm, 12.*cm);
-    MLC->SetLeaf(-17,   -11.5*cm, 11.5*cm);
-    MLC->SetLeaf(-18,   -11.*cm, 11.*cm);
-    MLC->SetLeaf(-19,   -10.5*cm, 10.5*cm);
-    MLC->SetLeaf(-20,   -10.*cm, 10.*cm);
-    MLC->SetLeaf(-21,   -9.5*cm, 9.5*cm);
-    MLC->SetLeaf(-22,   -9.*cm, 9.*cm);
-    MLC->SetLeaf(-23,   -8.5*cm, 8.5*cm);
-    MLC->SetLeaf(-24,   -8.*cm, 8.*cm);
-    MLC->SetLeaf(-25,   -7.5*cm, 7.5*cm);
-    MLC->SetLeaf(-26,   -7.*cm, 7.*cm);
-    MLC->SetLeaf(-27,   -6.5*cm, 6.5*cm);
-    MLC->SetLeaf(-28,   -6.*cm, 6.*cm);
-    MLC->SetLeaf(-29,   -5.5*cm, 5.5*cm);
-    MLC->SetLeaf(-30,   -5.*cm, 5.*cm);
-    MLC->SetLeaf(-31,   -4.5*cm, 4.5*cm);
-    MLC->SetLeaf(-32,   -4.*cm, 4.*cm);
-    MLC->SetLeaf(-33,   -3.5*cm, 3.5*cm);
-    MLC->SetLeaf(-34,   -3.*cm, 3.*cm);
-    MLC->SetLeaf(-35,   -2.5*cm, 2.5*cm);
-    MLC->SetLeaf(-36,   -2.*cm, 2.*cm);
-    MLC->SetLeaf(-37,   -1.5*cm, 1.5*cm);
-    MLC->SetLeaf(-38,   -1.*cm, 1.*cm);
-    MLC->SetLeaf(-39,   -0.5*cm, 0.5*cm);
+    MLC->SetLeaf( -1,   -7.0*cm, 7.25*cm);//-19.5*cm, 19.5*cm);
+    MLC->SetLeaf( -2,   -6.75*cm, 7.0*cm);//-19.*cm, 19.*cm);
+    MLC->SetLeaf( -3,   -6.75*cm, 7.0*cm);//-18.5*cm, 18.5*cm);
+    MLC->SetLeaf( -4,   -6.75*cm, 7.0*cm);//-18.*cm, 18.*cm);
+    MLC->SetLeaf( -5,   -6.75*cm, 7.0*cm);//-17.5*cm, 17.5*cm);
+    MLC->SetLeaf( -6,   -6.75*cm, 7.0*cm);//-17.*cm, 17.*cm);
+    MLC->SetLeaf( -7,   -6.5*cm, 6.75*cm);//-16.5*cm, 16.5*cm);
+    MLC->SetLeaf( -8,   -6.5*cm, 6.75*cm);//-16.*cm, 16.*cm);
+    MLC->SetLeaf( -9,   -6.5*cm, 6.75*cm);//-15.5*cm, 15.5*cm);
+    MLC->SetLeaf(-10,   -6.25*cm, 6.5*cm);//-15.*cm, 15.*cm);
+    MLC->SetLeaf(-11,   -6.25*cm, 6.5*cm);//-14.5*cm, 14.5*cm);
+    MLC->SetLeaf(-12,   -6.0*cm, 6.25*cm);//-14.*cm, 14.*cm);
+    MLC->SetLeaf(-13,   -5.75*cm, 6.0*cm);//-13.5*cm, 13.5*cm);
+    MLC->SetLeaf(-14,   -5.75*cm, 6.0*cm);//-13.*cm, 13.*cm);
+    MLC->SetLeaf(-15,   -5.5*cm, 5.75*cm);//-12.5*cm, 12.5*cm);
+    MLC->SetLeaf(-16,   -5.25*cm, 5.5*cm);//-12.*cm, 12.*cm);
+    MLC->SetLeaf(-17,   -5.0*cm, 5.25*cm);
+    MLC->SetLeaf(-18,   -4.75*cm, 5.0*cm);
+    MLC->SetLeaf(-19,   -4.25*cm, 4.5*cm);
+    MLC->SetLeaf(-20,   -4.0*cm, 4.25*cm);
+    MLC->SetLeaf(-21,   -3.5*cm, 3.75*cm);
+    MLC->SetLeaf(-22,   -3.0*cm, 3.25*cm);
+    MLC->SetLeaf(-23,   -2.5*cm, 2.75*cm);
+    MLC->SetLeaf(-24,   -1.5*cm, 1.75*cm);
+    MLC->SetLeaf(-25,   0*cm, 0*cm);
+    MLC->SetLeaf(-26,   0*cm, 0*cm);
+    MLC->SetLeaf(-27,   0*cm, 0*cm);
+    MLC->SetLeaf(-28,   0*cm, 0*cm);
+    MLC->SetLeaf(-29,   0*cm, 0*cm);
+    MLC->SetLeaf(-30,   0*cm, 0*cm);
+    MLC->SetLeaf(-31,   0*cm, 0*cm);
+    MLC->SetLeaf(-32,   0*cm, 0*cm);
+    MLC->SetLeaf(-33,   0*cm, 0*cm);
+    MLC->SetLeaf(-34,   0*cm, 0*cm);
+    MLC->SetLeaf(-35,   0*cm, 0*cm);
+    MLC->SetLeaf(-36,   0*cm, 0*cm);
+    MLC->SetLeaf(-37,   0*cm, 0*cm);
+    MLC->SetLeaf(-38,   0*cm, 0*cm);
+    MLC->SetLeaf(-39,   0*cm, 0*cm);
     MLC->SetLeaf(-40,   0.*cm, 0.*cm);
     
   // ************************ Beam Line *************************
-    
-  bcm.Add(D.New(0.1 * m));
+  
+    /*
+  bcm.Add(D.New(5.0 * m));
   bcm.Add(BKAPTON.New());
+     */
     bcm.Add(BAIR.New(0.1 * m));
+    bcm.Add(SMx.New(0.3));
     
     if ( MonitorONOFF == "on" )
     {
@@ -295,6 +336,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
         G4cout<<" ==========================================="<<G4endl;
         bcm.Add(BACKUPMLC.New());
     }
+    /*
     // Virtural Monitor ========================================
     bcm.Add(BAIR.New(0.1 * m));
     bcm.Add(D.New(0.001 * m));
@@ -303,7 +345,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     
     // Water Phantom ========================================
     bcm.Add(WP.New());
-    
+    */
   G4VPhysicalVolume* pv = bcm.GenerateVolume();
 
   return pv;

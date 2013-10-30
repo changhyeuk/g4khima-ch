@@ -13,13 +13,18 @@
 
 # new beam info mm mrad
 
-/beam/gauss/xabe   0.3 4.16 6.0
-/beam/gauss/yabe   0.3 4.16 6.0
-/beam/energy_msratio 430 0.01 # dispersion check with pencil beam
+/beam/gauss/xabe   4.89 30.61 10.0
+/beam/gauss/yabe   4.89 30.61 10.0
+/beam/energy_msratio 430 0.001 # dispersion check with pencil beam
 /beam/rseed       1
+
+/det/BeamMonitor off
+/det/RGF 	 off
+/det/RSF	 off
+/det/MLC	 off
 
 /ana/result dispersion full 
 
 /run/initialize
 
-/run/beamOn 10 # for the test
+/run/beamOn 100 # for the test
