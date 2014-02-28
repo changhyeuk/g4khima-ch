@@ -22,6 +22,8 @@ enum BLCType
   Solenoid,
   DummyBlock,
   BLWaterPhantom,
+  BLSlab,
+  BLRangeShifter,
   ThinCol,
   VirtualMon,
   Calo,
