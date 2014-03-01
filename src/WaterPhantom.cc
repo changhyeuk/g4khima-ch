@@ -86,9 +86,11 @@ void WaterPhantom::Generate(const G4RotationMatrix& R0,
                                                  new CalorimeterSD("WaterPhantom",
                                                                    R0,
                                                                    VC,
-                                                                   100,-HalfX/2,HalfX/2,
-                                                                   100,-HalfY/2,HalfY/2,
+                                                                   150,-HalfX/2,HalfX/2,
+                                                                   150,-HalfY/2,HalfY/2,
                                                                    400,-HalfZ/2,HalfZ/2));
+    //G4cout<<" Water Phantom Position : "<<VC<<G4endl;
+    
     l_blk->SetVisAttributes(new G4VisAttributes(cGreen));
     G4RotationMatrix* rr = new G4RotationMatrix(R0);
     rr->invert();

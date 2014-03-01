@@ -2,7 +2,7 @@
 #ifndef WaterPhantom_h
 #define WaterPhantom_h 1
 
-#include "globals.hh"
+#include "Globals.hh"
 #include "BeamLineComponent.hh"
 
 class WaterPhantom : public BeamLineComponent

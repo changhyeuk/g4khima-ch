@@ -12,16 +12,9 @@
 ###/geant4e/limits/stepLength 1.0 mm
 
 # new beam info mm mrad
-/beam/pencil on
-/beam/gauss/xabe   0.0 8.333 12.0
-/beam/gauss/yabe   0.0 4.16 6.0
-#/beam/gauss/xe   2.0, 6.0
-#/beam/gauss/ye   2.0, 6.0
-#/beam/gauss/xe   0.001, 0.001
-#/beam/gauss/ye   0.001, 0.001
 
-#/beam/energy_msratio 430 0.00125
-#/beam/energy_msratio 430 0.0  # ref. orbit check with pencil beam
+/beam/gauss/xabe   0.3 4.16 6.0
+/beam/gauss/yabe   0.3 4.16 6.0
 /beam/energy_msratio 430 0.01 # dispersion check with pencil beam
 /beam/rseed       1
 
@@ -29,9 +22,4 @@
 
 /run/initialize
 
-<<<<<<< .mine
-/run/beamOn 1 # for the test
-=======
-/run/beamOn 100000 # for the test
->>>>>>> .r50
-
+/run/beamOn 10 # for the test

@@ -23,7 +23,17 @@ TrackerSD::TrackerSD(const G4String iname,
   AnalysisManager* ana = AnalysisManager::GetInstance();
   // 1. 'fullPathName' was used instead of SensitiveDetectorName.
   // 2. Only one HC on one SD was used, so HCname and SDname are the same.
-  ana->BookTrackTuple(SensitiveDetectorName);
+  
+  //ana->BookTrackTuple(SensitiveDetectorName);
+    
+    ana->BookTrackHisto2D(SensitiveDetectorName,
+                          100,  // const G4int inx,
+                          -50, // const G4double ixmin,
+                          50,  // const G4double ixmax,
+                          100,  // const G4int iny,
+                          -50, // const G4double iymin,
+                          50); // const G4double iymax);
+    
   collectionName.insert(SensitiveDetectorName);
 
   // below must be bottom line of this constructor
@@ -49,6 +59,14 @@ void TrackerSD::Initialize(G4HCofThisEvent* hce)
 G4bool TrackerSD::ProcessHits(G4Step* istp, G4TouchableHistory*)
 {
   G4Track* trk = istp->GetTrack();
+  // Chang Add
+  G4ParticleDefinition *pDef = trk -> GetDefinition();
+  G4int Aa = pDef -> GetAtomicMass();
+  G4int Zz = pDef -> GetAtomicNumber();
+    
+  if ( Aa == 12 && Zz == 6)
+  {
+    // Chang Add End
   TrackHit* hit = new TrackHit();
   G4int PDGencoding = trk->GetDefinition()->GetPDGEncoding();
   hit->SetParticleId(PDGencoding);
@@ -72,6 +90,7 @@ G4bool TrackerSD::ProcessHits(G4Step* istp, G4TouchableHistory*)
     hit->SetIsomericExtEnergy(I);
   }
   hits->insert(hit);
+  }
   return true;
 }
 

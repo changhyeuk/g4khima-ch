@@ -29,9 +29,11 @@
 #include "Block.hh"
 #include "ThinCollimator.hh"
 #include "FieldTable.hh"
+#include "Slab.hh"
 #include "WaterPhantom.hh"
 #include "RidgeFilter.hh"
 #include "MultiLeafCollimator.hh"
+#include "RangeShifter.hh"
 #include "ScanDipoleMagnet.hh"
 
 #include "BeamLineComponentManager.hh"
