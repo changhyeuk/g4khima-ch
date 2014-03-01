@@ -1,0 +1,25 @@
+/control/verbose 0
+/run/verbose 0
+
+/vis/open VRML2FILE
+/vis/drawVolume
+/vis/scene/add/trajectories smooth
+/vis/scene/endOfEventAction accumulate 100
+/vis/viewer/set/autoRefresh true
+/vis/filtering/trajectories/create/chargeFilter
+/vis/filtering/trajectories/chargeFilter-0/add +1
+
+###/geant4e/limits/stepLength 1.0 mm
+
+# new beam info mm mrad
+
+/beam/gauss/xabe   0.3 4.16 6.0
+/beam/gauss/yabe   0.3 4.16 6.0
+/beam/energy_msratio 430 0.01 # dispersion check with pencil beam
+/beam/rseed       1
+
+/ana/result dispersion full 
+
+/run/initialize
+
+/run/beamOn 10 # for the test
