@@ -84,7 +84,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   Slab      BPET(0.3*m,0.3*m,25.0*um,"G4_POLYETHYLENE");
   Slab      BCU(0.3*m,0.3*m,50.0*um,"G4_Cu");
   Slab      BPG(0.3*m,0.3*m,200.0*um,"G4_Pyrex_Glass");
-  Slab      BGAIR(0.3*m,0.3*m,1.0*m,"G4_AIR");
+  Slab      BGAIR(0.3*m,0.3*m,5.0*m,"G4_AIR");
   Block     BACKUPMON(46.15*mm,46.15*mm,"G4_AIR");
   Block     BACKUPRGF(42.0*mm,42.0*mm,"G4_AIR"); // The Value Should be connected with the highest value with RGF
   Block     BACKUPRSF(30.0*cm,30.0*cm,"G4_AIR");
@@ -299,7 +299,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     //bcm.Add(BAIR.New(0.1 * m));
   
     
-    bcm.Add(D.New(7.0 * m));
+    bcm.Add(D.New(3.0 * m));
     bcm.Add(BGAIR.New());
     bcm.Add(mon.New());
     bcm.Add(D.New(0.001 * m));
