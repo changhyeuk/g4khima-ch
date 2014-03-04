@@ -66,7 +66,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   //bcm.SetInitRotationMatrix(Ri);
 
 
-  DriftSpace    D(0.4 * m);
+  DriftSpace    D(7.0 * m);
   /*
   ScanDipoleMagnet SMx(6.0 * cm,        // tube_full_height
                        15.0 * cm,       // tube_full_width
@@ -84,8 +84,10 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   Slab      BPET(0.3*m,0.3*m,25.0*um,"G4_POLYETHYLENE");
   Slab      BCU(0.3*m,0.3*m,50.0*um,"G4_Cu");
   Slab      BPG(0.3*m,0.3*m,200.0*um,"G4_Pyrex_Glass");
-  Slab      BGAIR(0.3*m,0.3*m,5.0*mm,"G4_AIR");
-  Block     BACKUPMON(46.15*mm,46.15*mm,"G4_AIR");
+    
+  Slab      BGAIR(0.3*m,0.3*m,1.0*m,"G4_AIR");
+  
+    Block     BACKUPMON(46.15*mm,46.15*mm,"G4_AIR");
   Block     BACKUPRGF(42.0*mm,42.0*mm,"G4_AIR"); // The Value Should be connected with the highest value with RGF
   Block     BACKUPRSF(30.0*cm,30.0*cm,"G4_AIR");
   Block     BACKUPMLC(15.0*cm,15.0*cm,"G4_AIR");
@@ -191,9 +193,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
     
   // ************************ Beam Line *************************
     
-  bcm.Add(D.New(0.1 * m));
-  bcm.Add(BKAPTON.New());
-    bcm.Add(BAIR.New(0.1 * m));
+  //bcm.Add(D.New(0.1 * m));
+  //bcm.Add(BKAPTON.New());
+  //  bcm.Add(BAIR.New(0.1 * m));
     
     if ( MonitorONOFF == "on" )
     {
@@ -244,7 +246,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
         bcm.Add(BACKUPMON.New());
     }
     
-    bcm.Add(BAIR.New(0.1 * m));
+    //bcm.Add(BAIR.New(0.1 * m));
   
     // RGF ======================================================
     if ( RGFONOFF == "on" )
@@ -261,7 +263,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
         G4cout<<" ==========================================="<<G4endl;
         bcm.Add(BACKUPRGF.New());
     }
-    bcm.Add(BAIR.New(0.1 * m));
+    //bcm.Add(BAIR.New(0.1 * m));
     
     // RSF ======================================================
     if (RSFONOFF=="on")
@@ -278,7 +280,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
         G4cout<<" ==========================================="<<G4endl;
         bcm.Add(BACKUPRSF.New());
     }
-    bcm.Add(BAIR.New(0.1 * m));
+    //bcm.Add(BAIR.New(0.1 * m));
     
   // MLC ======================================================
     if ( MLCONOFF == "on")
@@ -296,13 +298,14 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
         bcm.Add(BACKUPMLC.New());
     }
     // Virtural Monitor ========================================
-    bcm.Add(BAIR.New(0.1 * m));
-    bcm.Add(D.New(0.001 * m));
+    
+    bcm.Add(D.New());
+    bcm.Add(BGAIR.New(1.0 * m));
     bcm.Add(mon.New());
-    bcm.Add(D.New(0.001 * m));
+    //bcm.Add(D.New(0.001 * m));
     
     // Water Phantom ========================================
-    bcm.Add(WP.New());
+    //bcm.Add(WP.New());
     
   G4VPhysicalVolume* pv = bcm.GenerateVolume();
 
