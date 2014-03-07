@@ -33,6 +33,8 @@ VirtualMonitor::~VirtualMonitor()
 //=============================================================================
 VirtualMonitor* VirtualMonitor::New()
 {
+    G4cout<<" x size :"<<xsize<<G4endl;
+    
   return new VirtualMonitor(xsize, ysize);
 }
 
@@ -56,9 +58,11 @@ void VirtualMonitor::Generate(const G4RotationMatrix& R0,
                               const G4ThreeVector&    V0,
                                     G4LogicalVolume*  mother_lv)
 {
+    std::cout << "V0 : " << V0 << std::endl;
+    std::cout << "Vadd : " << R0 * (0.5 * mon_t * zhat) << std::endl;
   const G4ThreeVector Vmon = V0 + R0 * (0.5 * mon_t * zhat);
   G4Box* s_mon0 = new G4Box("smon", xsize, ysize, 0.5 * mon_t);
-  G4LogicalVolume* l_mon0 = new G4LogicalVolume(s_mon0, 
+  G4LogicalVolume* l_mon0 = new G4LogicalVolume(s_mon0,
                                                 mother_lv->GetMaterial(), 
                                                 "lmon", 0,
                                                 new TrackerSD("VM", R0, Vmon));

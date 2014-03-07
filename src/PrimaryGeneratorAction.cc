@@ -81,8 +81,15 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     ypi = G4RandGauss::shoot(beam.Slopy() * yi, beam.YpInt());
     wi  = G4RandGauss::shoot(beam.MeanEnergy() * A,
                              beam.MeanEnergy() * beam.EsRatio() * A);
+    
+     // std::cout << "-----------!!!!!!!!!!!!!!!!!!!!!!!!!  = " << pdef->GetPDGMass() << std::endl;
+     // std::cout << amu_c2 * A / pdef->GetPDGMass() << std::endl;
+      double pabs = garam::beta_gamma(wi) * pdef->GetPDGMass() / c_light;
+      double pz = pabs / sqrt(xpi + ypi + 1.0);
+      G4cout<<" Gun :"<<gunpos<<G4endl;
+      
     gun->SetParticlePosition(gunpos + G4ThreeVector(xi, yi, 0.));
-    gun->SetParticleMomentumDirection(gunrot * G4ThreeVector(xpi, ypi, 1.));
+    gun->SetParticleMomentumDirection(gunrot * G4ThreeVector(xpi * pz, ypi * pz, pz));
     gun->SetParticleEnergy(wi);
     gun->GeneratePrimaryVertex(anEvent);
     ana->FillBullet(xi, xpi, yi, ypi, wi/A);
