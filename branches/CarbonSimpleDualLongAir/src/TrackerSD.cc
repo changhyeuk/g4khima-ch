@@ -20,6 +20,7 @@ TrackerSD::TrackerSD(const G4String iname,
                      const G4ThreeVector& iV)
   :SensitiveDetector(G4String("TrackerSD_") + iname, iR, iV)
 {
+    std::cout << iR << std::endl << iV << std::endl << std::endl;
   AnalysisManager* ana = AnalysisManager::GetInstance();
   // 1. 'fullPathName' was used instead of SensitiveDetectorName.
   // 2. Only one HC on one SD was used, so HCname and SDname are the same.
@@ -88,6 +89,7 @@ G4bool TrackerSD::ProcessHits(G4Step* istp, G4TouchableHistory*)
     hit->SetAtomicNumber(Z);
     hit->SetAtomicMass(A);
     hit->SetIsomericExtEnergy(I);
+      //std::cout << trk->GetPosition() << std::endl;
   }
   hits->insert(hit);
   }

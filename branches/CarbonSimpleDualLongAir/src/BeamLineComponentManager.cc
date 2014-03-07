@@ -128,6 +128,8 @@ G4VPhysicalVolume* BeamLineComponentManager::GenerateVolume()
                              world_volume_size.x(),
                              world_volume_size.y(),
                              world_volume_size.z());
+    G4cout<<" World :"<<world_volume_size.z()<<G4endl;
+    
   G4LogicalVolume* l_world = new G4LogicalVolume(s_world, bg_mat, "l_world");
   // invisible now
   l_world->SetVisAttributes(G4VisAttributes::Invisible);
