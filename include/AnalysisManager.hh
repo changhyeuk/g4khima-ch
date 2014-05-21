@@ -8,6 +8,7 @@
 class TFile;
 class TNtuple;
 class TH3D;
+class TH2D;
 class TH1D;
 
 class AnalysisMessenger;
@@ -41,9 +42,12 @@ private:
   G4String                dirpath;
   G4String                filename;
   TFile*                  aresult;
-
   TNtuple*                bullets;
-  
+    
+    
+  G4double width;
+    
+    
   // result data structures
   // followings dont need to be deleted because of TFile
   // if you delete elements inside destructor of this class,
@@ -51,9 +55,12 @@ private:
   std::vector<G4String>   tuplenames;
   std::vector<G4String>   histonames;
   std::vector<G4String>   histonames1d;
+  std::vector<G4String>   histonames2d;
   std::vector<TNtuple*>   tuples;
   std::vector<TH3D*>      histos;
   std::vector<TH1D*>      histos1d;
+  std::vector<TH2D*>      histos2d;
+    
   // instead of root
 
 public:
@@ -66,6 +73,13 @@ public:
   // booking must be done after registration of sensitive detector.
   // because of s_id searching.
   void BookTrackTuple(const G4String isdname);
+  void BookTrackHisto2D(const G4String isdname,
+                        const G4int inx, const G4double ixmin,
+                        const G4double ixmax,
+                        const G4int iny, const G4double iymin,
+                        const G4double iymax);
+
+  //void BookCaloTuple(const G4String isdname);
   void BookCaloHisto3D(const G4String isdname,
                        const G4int inx,
                        const G4double ixmin, const G4double ixmax,
@@ -79,8 +93,10 @@ public:
                        const G4double izmin, const G4double izmax);
   // Chang Added
   void FillTrackTuple(const G4String isdname, const TrackHitsCollection* hc);
+  void FillTrackHisto2D(const G4String isdname, const TrackHitsCollection* hc);
   void FillCaloHisto3D(const G4String isdname, const CaloHitsCollection* hc);
   void FillCaloHisto1D(const G4String isdname, const CaloHitsCollection* hc);
+    
 };
 
 
